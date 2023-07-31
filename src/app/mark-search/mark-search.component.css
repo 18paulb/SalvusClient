@@ -1,0 +1,26 @@
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.results-table th {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px;
+}
+
+.results-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+textarea {
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+  margin: 5px;
+}
+

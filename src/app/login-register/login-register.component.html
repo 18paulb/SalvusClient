@@ -1,0 +1,16 @@
+<h1>Register</h1>
+<form #registerform='ngForm' (ngSubmit)="register()">
+  <input type="text" name="email" [(ngModel)]="registerEmail" placeholder="Enter Email" required>
+  <input type="password" name="password" [(ngModel)]="registerPassword" placeholder="Enter Password" required>
+  <input type="text" name="companyName" [(ngModel)]="companyName" placeholder="Enter Company Name" required>
+  <button type="submit" [disabled]="!registerform.valid">Register</button>
+</form>
+
+<h1>Log In</h1>
+<form #loginform='ngForm' (ngSubmit)="login()">
+  <input type="text" name="email" [(ngModel)]="loginEmail" placeholder="Enter Email" required>
+  <input type="password" name="password" [(ngModel)]="loginPassword" placeholder="Enter Password" required>
+  <button type="submit" [disabled]="!loginform.valid">Log In</button>
+</form>
+
+

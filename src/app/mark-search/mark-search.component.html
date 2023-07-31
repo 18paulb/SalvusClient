@@ -1,0 +1,80 @@
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+  <h1>Let's Get Started</h1>
+  <p style="text-align: center">Want to see if you're idea is not infringing?
+    <br>
+    Input your prospective idea below
+  </p>
+</div>
+
+<!--This box contains both the manual enter and the file drag and drop-->
+<div style="display:flex; justify-content: space-evenly; align-items: center">
+
+  <!--This will be the left side manually input text area-->
+  <div
+    style="display: flex; justify-content: center; align-items: center; flex-direction: column; border: 1px solid black; background-color: aliceblue; height: 30em; width: 20em;">
+    <h1>Perform a Search</h1>
+
+<!--    <form #form='ngForm' (ngSubmit)="classifyCode()">-->
+<!--      <textarea type="text" name="description" [(ngModel)]="description" placeholder="Enter Description"-->
+<!--                required></textarea>-->
+<!--      <button type="submit" [disabled]="!form.valid">Submit</button>-->
+<!--    </form>-->
+
+    <p style="text-align: center">The classification code that matches best your description is THIS. Is that
+      correct?</p>
+    <br>
+
+    <form #form='ngForm' (ngSubmit)="markSearch()">
+      <textarea rows="5" cols="30" type="text" name="wordMark" [(ngModel)]="mark" placeholder="Enter Text" required></textarea>
+      <select name='selectedOption' [(ngModel)]="selectedOption" required>
+        <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>
+      </select>
+      <button type="submit" [disabled]="!form.valid">Submit</button>
+    </form>
+  </div>
+
+  <!--This is the right side drag and drop area-->
+  <div
+    style="display: flex; justify-content: center; align-items: center; flex-direction: column; border: 1px solid black;  background-color: aliceblue; height: 30em; width: 20em;">
+    <h1>Drag Text File Here</h1>
+    <p>Eventually this will be a drag and drop box</p>
+
+  </div>
+</div>
+
+<br>
+
+<div *ngIf="results.length; else noResults" style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+  <!--This table shows the results of the search-->
+  <h1>Search results for "{{mark}}"</h1>
+  <table  class="results-table">
+    <thead>
+    <tr>
+      <th>Word Mark</th>
+      <th>Company Name</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Date Filed</th>
+      <th>Risk Level</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let result of results">
+      <td>{{result.mark_identification}}</td>
+      <td>
+        <p *ngFor="let owner of result.case_owners">
+          {{owner}}
+        </p>
+      </td>
+      <td *ngIf="result.case_file_description; else noDescription">{{result.case_file_description}}</td>
+      <ng-template #noDescription><td>No description available</td></ng-template>
+      <td>{{result.category}}</td>
+      <td>{{result.filing_date}}</td>
+      <td>{{result.riskLevel}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noResults>
+  <h1 style="text-align: center">No Results Found</h1>
+</ng-template>

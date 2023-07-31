@@ -1,0 +1,7 @@
+<h2>Salvus LLC.</h2>
+
+<nav *ngIf='userService.getAuthToken() != null'>
+  <a (click)="logout()" routerLink="">Log Out</a>
+  <br>
+  <a routerLink="/mark-search">Mark Search</a>
+</nav>
