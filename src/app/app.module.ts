@@ -10,13 +10,15 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
 import { HttpClientXsrfModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
+import { SearchHistoryComponent } from './search-history/search-history.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MarkSearchComponent,
     LoginRegisterComponent,
-    HeaderComponent
+    HeaderComponent,
+    SearchHistoryComponent
   ],
   imports: [
     BrowserModule,

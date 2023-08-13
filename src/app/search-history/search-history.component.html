@@ -1,0 +1,7 @@
+<h1>Your Search History</h1>
+
+<div *ngFor="let search of searches" style="border-bottom: 1px solid black">
+  <p>{{search.searchText}}</p>
+  <p>{{search.code}}</p>
+  <p>{{search.date}}</p>
+</div>

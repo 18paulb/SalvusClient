@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {HttpHeaders} from '@angular/common/http';
+import {UserService} from "../services/UserService";
 
 @Component({
   selector: 'app-mark-search',
@@ -12,7 +14,7 @@ export class MarkSearchComponent {
   }
 
   results: Trademark[] = [];
-  selectedOption: [string, string] = ['',''];
+  selectedOption: [string, string] = ['', ''];
   options: [string, string][] = [['Chemicals', '001'], ['Paints', "002"], ['Cosmetics and Cleaning Preparations', "003"], ['Lubricants and Fuels', "004"], ['Pharmaceuticals', "005"],
     ['Metal Goods', "006"], ['Machinery', "007"], ['Hand Tools', "008"], ['Electrical and Scientific Apparatus', "009"], ['Medical Apparatus', "010"], ['Environmental Control Apparatus', '011'],
     ['Vehicles', '012'], ['Firearms', '013'], ['Jewelry', '014'], ['Musical Instruments', '015'], ['Paper Goods and Printed Matter', '016'], ['Rubber Goods', '017'], ['Leather Goods', '018'],
@@ -29,33 +31,49 @@ export class MarkSearchComponent {
   typeCode: string = '000'
   description: string = ''
 
+  classification: string = ''
+
   public markSearch(): void {
-    console.log("Running Search")
     this.results = [];
     // To avoid exposing data via url, maybe use the authtoken to retrieve the company name and email in the server
-    this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}&companyName=${this.companyName}&email=${this.email}`)
+    this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}&companyName=${this.companyName}&email=${this.email}`, {
+      headers: new HttpHeaders({
+        // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
+
+        'Authorization': `${localStorage.getItem('authtoken')}`
+      })
+    })
       .subscribe((data: any) => {
         for (let i = 0; i < data.length; i++) {
 
-          let trademark: Trademark = {
-            mark_identification: data[i].mark_identification,
-            case_owners: data[i].case_owners,
-            filing_date: data[i].filing_date,
-            case_file_description: data[i].case_file_description,
-            category: "TODO: Get Category",
-            riskLevel: "TODO: Get Risk Level"
-          }
+          let trademark = data[i]['trademark']
+          let riskLevel = data[i]['riskLevel']
 
-          this.results.push(trademark)
+          debugger
+
+          this.results.push({
+            mark_identification: trademark.mark_identification,
+            case_owners: trademark.case_owners,
+            date_filed: trademark.date_filed,
+            case_file_descriptions: trademark.case_file_descriptions,
+            category: "TODO: Get Category",
+            riskLevel: riskLevel
+          })
         }
       })
   }
 
   public classifyCode(): void {
-    console.log("Running Classify")
     this.http.get(`http://localhost:8000/classifyCode?query=${encodeURIComponent(this.description)}`)
       .subscribe((data: any) => {
-        console.log(data)
+        this.classification = data.classification
+
+        //This sets the selected option to the classification if it is in the list of options
+        //Basically sets the code for the search and also picks an option from the drop down of classifications
+        if (this.options.some(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())) {
+          this.selectedOption = this.options.find(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())!
+        }
+
       })
   }
 }
@@ -63,8 +81,8 @@ export class MarkSearchComponent {
 interface Trademark {
   mark_identification: string;
   case_owners: [],
-  filing_date: string;
-  case_file_description: string;
+  date_filed: string;
+  case_file_descriptions: string;
   category: string;
   riskLevel: string;
 }

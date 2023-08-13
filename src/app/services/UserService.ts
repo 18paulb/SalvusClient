@@ -15,11 +15,13 @@ export class UserService {
   }
 
   getAuthToken() {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem('authtoken');
   }
 
   logout() {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('authtoken');
     this.currentUser = null;
   }
 }
+
+

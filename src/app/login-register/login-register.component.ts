@@ -22,14 +22,26 @@ export class LoginRegisterComponent {
   loginPassword: string = '';
 
   public register(): void {
-    debugger
-    this.http.post('http://localhost:8000/register', {
-      email: this.registerEmail,
-      password: this.registerPassword,
-      company_name: this.companyName
-    }).subscribe((data: any) => {
-      console.log(data);
-    });
+    try {
+      this.http.post<{ authtoken: string }>('http://localhost:8000/register', {
+        email: this.registerEmail,
+        password: this.registerPassword,
+        company_name: this.companyName
+      }, {observe: 'response'}).subscribe((response: any) => {
+        console.log(response);
+        if (response.status == 200 && response.body != null) {
+          const token = response.body.authtoken;
+          // TODO: We need to learn how to do the authtoken storage properly, this is unsafe
+          localStorage.setItem('authtoken', token);
+          this.router.navigate(['/mark-search']).then(r => console.log(r));
+        } else {
+          alert('Register failed');
+        }
+      });
+    } catch (e) {
+      alert('Register failed')
+      console.log(e);
+    }
   }
 
   public login(): void {
@@ -41,7 +53,7 @@ export class LoginRegisterComponent {
         if (response.status == 200 && response.body != null) {
           const token = response.body.authtoken;
           // TODO: We need to learn how to do the authtoken storage properly, this is unsafe
-          localStorage.setItem('authToken', token);
+          localStorage.setItem('authtoken', token);
           this.router.navigate(['/mark-search']).then(r => console.log(r));
         } else {
           alert('Login failed');
@@ -52,7 +64,6 @@ export class LoginRegisterComponent {
       console.log(e);
     }
   }
-
 
 
 }
