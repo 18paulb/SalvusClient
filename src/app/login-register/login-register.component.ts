@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HttpHeaders} from "@angular/common/http";
 import {Router} from '@angular/router';
@@ -12,6 +12,12 @@ import {UserService} from "../services/UserService";
 export class LoginRegisterComponent {
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
+  }
+
+  ngOnInit(): void {
+    if (this.userService.getAuthToken() != null) {
+      this.router.navigate(['/mark-search']);
+    }
   }
 
   registerEmail: string = '';

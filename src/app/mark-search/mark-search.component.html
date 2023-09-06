@@ -10,8 +10,7 @@
 <div style="display:flex; justify-content: space-evenly; align-items: center">
 
   <!--This will be the left side manually input text area-->
-  <div
-    style="display: flex; justify-content: center; align-items: center; flex-direction: column; border: 1px solid black; background-color: aliceblue; height: 30em; width: 20em;">
+  <div class="mark-input-box">
     <h1>Perform a Search</h1>
 
     <form #markdescription='ngForm' (ngSubmit)="classifyCode()">
@@ -22,10 +21,8 @@
     </form>
 
     <div *ngIf="classification != ''">
-      <p style="text-align: center">The classification code that matches best your
-        description is `{{classification}}`. Is that
-        correct? If not select from these options</p>
-      <br>
+      <p style="text-align: center">`{{classification}}` best matches your
+        description. Is that correct? If not select from the options below</p>
     </div>
 
     <div>
@@ -45,7 +42,7 @@
   <!--This is the right side drag and drop area-->
   <div
     style="display: flex; justify-content: center; align-items: center; flex-direction: column; border: 1px solid black;  background-color: aliceblue; height: 30em; width: 20em;">
-    <h1>Drag Text File Here</h1>
+    <h1>Drag Image File Here</h1>
     <p>Eventually this will be a drag and drop box</p>
 
   </div>
@@ -82,7 +79,10 @@
       </ng-template>
       <td>{{result.category}}</td>
       <td>{{result.date_filed}}</td>
-      <td>{{result.riskLevel}}</td>
+      <td [ngClass]= "{
+      'high-risk-level': result.riskLevel === 'red',
+      'medium-risk-level': result.riskLevel === 'yellow'
+      }">{{result.riskLevel}}</td>
     </tr>
     </tbody>
   </table>

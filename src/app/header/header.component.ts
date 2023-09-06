@@ -14,5 +14,6 @@ export class HeaderComponent {
 
   public logout(): void {
     this.userService.logout();
+    localStorage.clear();
   }
 }

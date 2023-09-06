@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HttpHeaders} from "@angular/common/http";
+import {Search} from "./searchModel";
 
 @Component({
   selector: 'app-search-history',
@@ -24,7 +25,7 @@ export class SearchHistoryComponent {
       'Content-Type': 'application/json',
       'Authorization': `${authtoken}`
     });
-    this.http.get('http://localhost:8000/searchHistory?email=REPLACE%20EMAIL', {headers: headers}).subscribe((data: any) => {
+    this.http.get('http://localhost:8000/searchHistory', {headers: headers}).subscribe((data: any) => {
       for (let i = 0; i < data.length; i++) {
 
         let search: Search = {
@@ -39,8 +40,3 @@ export class SearchHistoryComponent {
   }
 }
 
-interface Search {
-  searchText: string;
-  code: string;
-  date: string;
-}
