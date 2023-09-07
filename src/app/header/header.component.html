@@ -1,5 +1,5 @@
 <!--This puts all the menu items horizontally-->
-<div style="display:flex; ">
+<div style="display:flex; background-color: lightgray;">
   <h2>Salvus LLC</h2>
   <nav *ngIf='userService.getAuthToken() != null' class="nav-bar">
     <a (click)="logout()" routerLink="">Log Out</a>

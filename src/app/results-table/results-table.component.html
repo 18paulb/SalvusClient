@@ -1,0 +1,44 @@
+<!--This is the results table-->
+<!--TODO: Include if statement for results component-->
+<div *ngIf="results.length != 0">
+  <h1>Search results for "{{searchedMark}}"</h1>
+</div>
+
+<div *ngIf="results.length; else noResults"
+     style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+  <table class="results-table">
+    <thead>
+    <tr>
+      <th>Trademarked Word Mark</th>
+      <th>Company Name</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Date Filed</th>
+      <th>Risk Level</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let result of results">
+      <td>{{result.mark_identification}}</td>
+      <td>
+        <p *ngFor="let owner of result.case_owners">
+          {{owner}}
+        </p>
+      </td>
+      <td *ngIf="result.case_file_descriptions; else noDescription">{{result.case_file_descriptions}}</td>
+      <ng-template #noDescription>
+        <td>No description available</td>
+      </ng-template>
+      <td>{{result.category}}</td>
+      <td>{{result.date_filed}}</td>
+      <td [ngClass]= "{
+      'high-risk-level': result.riskLevel === 'red',
+      'medium-risk-level': result.riskLevel === 'yellow'
+      }">{{result.riskLevel}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noResults>
+  <h1 style="text-align: center">No Results Found</h1>
+</ng-template>

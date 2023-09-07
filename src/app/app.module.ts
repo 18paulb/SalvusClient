@@ -11,6 +11,7 @@ import { HttpClientXsrfModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { SearchHistoryComponent } from './search-history/search-history.component';
+import { ResultsTableComponent } from './results-table/results-table.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SearchHistoryComponent } from './search-history/search-history.componen
     MarkSearchComponent,
     LoginRegisterComponent,
     HeaderComponent,
-    SearchHistoryComponent
+    SearchHistoryComponent,
+    ResultsTableComponent
   ],
   imports: [
     BrowserModule,
