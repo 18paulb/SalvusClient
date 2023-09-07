@@ -19,20 +19,3 @@ textarea {
   width: 25em;
 }
 
-.high-risk-level {
-  display: flex;
-  background-color: red;
-  border-radius: 5px;
-}
-
-.medium-risk-level {
-  display: flex;
-  background-color: yellow;
-  border-radius: 5px;
-}
-
-.no-risk-level {
-  display: flex;
-  background-color: lightgreen;
-  border-radius: 5px;
-}

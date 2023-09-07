@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {HttpHeaders} from '@angular/common/http';
-import {UserService} from "../services/UserService";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ResultsService} from "../services/ResultsService";
 import {Trademark} from "./trademarkModel";
 import {Router} from "@angular/router";
@@ -60,7 +58,7 @@ export class MarkSearchComponent {
           this.results.push({
             mark_identification: trademark.mark_identification,
             case_owners: trademark.case_owners,
-            date_filed: trademark.date_filed,
+            date_filed: this.convertDateFormat(trademark.date_filed),
             case_file_descriptions: trademark.case_file_descriptions,
             category: "TODO: Get Category",
             riskLevel: riskLevel
@@ -87,6 +85,25 @@ export class MarkSearchComponent {
         }
 
       })
+  }
+
+  public convertDateFormat(dateStr: string): string {
+    // Extract year, month, and day as substrings
+    const year = dateStr.substring(0, 4);
+    const month = dateStr.substring(4, 6);
+    const day = dateStr.substring(6, 8);
+
+    // Create a new Date object (Note: JavaScript month is 0-based, so -1 on month)
+    const dateObj = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
+    // Array of month names for conversion
+    const monthNames: string[] = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Construct the formatted date string
+    return `${day} ${monthNames[dateObj.getMonth()]} ${year}`;
   }
 
 }
