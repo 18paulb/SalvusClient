@@ -37,56 +37,26 @@
                 required></textarea>
       <button type="submit" [disabled]="!wordmark.valid">Submit</button>
     </form>
+
+    <h3>Search Broadness</h3>
+
+    <form>
+      <input type="radio" [(ngModel)]='searchWidth' id="option1" name="choice" value="same">
+      <label for="option1">Same Category</label><br>
+
+      <input type="radio" id="option2" [(ngModel)]='searchWidth' name="choice" value="similar">
+      <label for="option2">Similar Categories</label><br>
+
+      <input type="radio" id="option3" [(ngModel)]='searchWidth' name="choice" value="all">
+      <label for="option3">All Categories</label>
+    </form>
   </div>
 
   <!--This is the right side drag and drop area-->
-  <div
-    style="display: flex; justify-content: center; align-items: center; flex-direction: column; border: 1px solid black;  background-color: aliceblue; height: 30em; width: 20em;">
+  <div class="mark-input-box">
     <h1>Drag Image File Here</h1>
     <p>Eventually this will be a drag and drop box</p>
-
   </div>
 </div>
 
 <br>
-
-<!--This is the results table-->
-<div *ngIf="results.length; else noResults"
-     style="display: flex; justify-content: center; align-items: center; flex-direction: column">
-  <h1>Search results for "{{mark}}"</h1>
-  <table class="results-table">
-    <thead>
-    <tr>
-      <th>Word Mark</th>
-      <th>Company Name</th>
-      <th>Description</th>
-      <th>Category</th>
-      <th>Date Filed</th>
-      <th>Risk Level</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let result of results">
-      <td>{{result.mark_identification}}</td>
-      <td>
-        <p *ngFor="let owner of result.case_owners">
-          {{owner}}
-        </p>
-      </td>
-      <td *ngIf="result.case_file_descriptions; else noDescription">{{result.case_file_descriptions}}</td>
-      <ng-template #noDescription>
-        <td>No description available</td>
-      </ng-template>
-      <td>{{result.category}}</td>
-      <td>{{result.date_filed}}</td>
-      <td [ngClass]= "{
-      'high-risk-level': result.riskLevel === 'red',
-      'medium-risk-level': result.riskLevel === 'yellow'
-      }">{{result.riskLevel}}</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-<ng-template #noResults>
-  <h1 style="text-align: center">No Results Found</h1>
-</ng-template>

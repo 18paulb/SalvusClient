@@ -2,7 +2,9 @@ import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HttpHeaders} from '@angular/common/http';
 import {UserService} from "../services/UserService";
+import {ResultsService} from "../services/ResultsService";
 import {Trademark} from "./trademarkModel";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-mark-search',
@@ -11,11 +13,11 @@ import {Trademark} from "./trademarkModel";
 })
 export class MarkSearchComponent {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
   }
 
   results: Trademark[] = [];
-  selectedOption: [string, string] = ['', ''];
+  //selectedOption: [string, string] = ['', ''];
   options: [string, string][] = [['Chemicals', '001'], ['Paints', "002"], ['Cosmetics and Cleaning Preparations', "003"], ['Lubricants and Fuels', "004"], ['Pharmaceuticals', "005"],
     ['Metal Goods', "006"], ['Machinery', "007"], ['Hand Tools', "008"], ['Electrical and Scientific Apparatus', "009"], ['Medical Apparatus', "010"], ['Environmental Control Apparatus', '011'],
     ['Vehicles', '012'], ['Firearms', '013'], ['Jewelry', '014'], ['Musical Instruments', '015'], ['Paper Goods and Printed Matter', '016'], ['Rubber Goods', '017'], ['Leather Goods', '018'],
@@ -25,17 +27,27 @@ export class MarkSearchComponent {
     ['Insurance and Financial', '036'], ['Building Construction and Repair', '037'], ['Telecommunications', '038'], ['Transportation and Storage', '039'], ['Treatment of Materials', '040'],
     ['Educational and Entertainment', '041'], ['Computer and Scientific', '042'], ['Hotels and Restaurants', '043'], ['Medical, Beauty and Agricultural', '044'], ['Personal and Legal', '045']]
 
-  mark: string = '';
+  // mark: string = '';
+  // description: string = ''
+  // classification: string = ''
+  // searchWidth: string = ''
+  mark: string = 'king'
   description: string = ''
   classification: string = ''
+  searchWidth: string = 'all'
+  selectedOption: [string, string] = ['Chemicals', '001']
 
   public markSearch(): void {
     this.results = [];
+
+    if (this.mark == '' || this.selectedOption[1] == '' || this.searchWidth == '') {
+      throw Error
+    }
+
     // To avoid exposing data via url, maybe use the authtoken to retrieve the company name and email in the server
-    this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}`, {
+    this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}&searchWidth=${this.searchWidth}`, {
       headers: new HttpHeaders({
         // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
-
         'Authorization': `${localStorage.getItem('authtoken')}`
       })
     })
@@ -53,6 +65,12 @@ export class MarkSearchComponent {
             category: "TODO: Get Category",
             riskLevel: riskLevel
           })
+        }
+
+        if (this.results.length != 0) {
+          this.resultsService.setResults(this.results)
+          this.resultsService.setSearchedMark(this.mark)
+          this.router.navigate(['/results-table'])
         }
       })
   }
