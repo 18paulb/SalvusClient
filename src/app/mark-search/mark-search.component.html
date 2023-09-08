@@ -1,62 +1,108 @@
-<div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
-  <h1>Let's Get Started</h1>
-  <p style="text-align: center">Want to see if you're idea is infringing on an existing trademark?
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 50px;">
+  <h1 style="font-family: 'Inter', sans-serif;">Let's Get Started</h1>
+  <p style="text-align: center; font-family: 'Inter', sans-serif;">Has your idea already been trademarked?
     <br>
     Input your prospective idea below
   </p>
 </div>
 
 <!--This box contains both the manual enter and the file drag and drop-->
-<div style="display:flex; justify-content: space-evenly; align-items: center">
+<div style="display:flex; justify-content: space-evenly; align-items: center;">
+
+  <div class="mark-input-box-test">
+
+    <!--The Search Bar-->
+
+    <div class="wrap">
+      <form class="search" #wordmark='ngForm' (ngSubmit)="markSearch()">
+        <input name="wordMark" [(ngModel)]="mark" type="text" class="searchTerm" placeholder="What are you looking for?">
+        <button type="submit" class="searchButton" [disabled]="!wordmark.valid">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+    </div>
+
+
+
+
+
+    <!--All the drop down menus-->
+    <div style="display: flex; justify-content: space-between; width: 50%;">
+      <div>
+        <select class="select-box" name='selectedOption' id="selectedOption" [(ngModel)]="selectedOption" required>
+          <option value="" disabled [selected]="selectedOption === null">Select an option</option>
+          <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>
+        </select>
+      </div>
+
+      <div>
+        <select class="select-box" name='searchScope' id="searchScope" [(ngModel)]="searchScope" required>
+          <option>All</option>
+          <option>Similar</option>
+          <option>Same</option>
+        </select>
+      </div>
+
+      <div>
+        <select class="select-box" name='trademarkStatus' id="trademarkStatus" required>
+          <option>Live</option>
+          <option>Dead</option>
+          <option>Both</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+
 
   <!--This will be the left side manually input text area-->
-  <div class="mark-input-box">
-    <h1>Perform a Search</h1>
+  <!--  <div class="mark-input-box">-->
+  <!--    <h1>Perform a Search</h1>-->
 
-    <form #markdescription='ngForm' (ngSubmit)="classifyCode()">
-      <textarea rows="5" cols="30" type="text" name="description" [(ngModel)]="description"
-                placeholder="Enter description of your product or service"
-                required></textarea>
-      <button type="submit" [disabled]="!markdescription.valid">Submit</button>
-    </form>
+  <!--    <form #markdescription='ngForm' (ngSubmit)="classifyCode()">-->
+  <!--      <textarea rows="5" cols="30" type="text" name="description" [(ngModel)]="description"-->
+  <!--                placeholder="Enter description of your product or service"-->
+  <!--                required></textarea>-->
+  <!--      <button type="submit" [disabled]="!markdescription.valid">Submit</button>-->
+  <!--    </form>-->
 
-    <div *ngIf="classification != ''">
-      <p style="text-align: center">`{{classification}}` best matches your
-        description. Is that correct? If not select from the options below</p>
-    </div>
+  <!--    <div *ngIf="classification != ''">-->
+  <!--      <p style="text-align: center">`{{classification}}` best matches your-->
+  <!--        description. Is that correct? If not select from the options below</p>-->
+  <!--    </div>-->
 
-    <div>
-      <select name='selectedOption' [(ngModel)]="selectedOption" required>
-        <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>
-      </select>
-    </div>
+  <!--    <div>-->
+  <!--      <select name='selectedOption' [(ngModel)]="selectedOption" required>-->
+  <!--        <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>-->
+  <!--      </select>-->
+  <!--    </div>-->
 
-    <form #wordmark='ngForm' (ngSubmit)="markSearch()">
-      <textarea rows="2" cols="30" type="text" name="wordMark" [(ngModel)]="mark"
-                placeholder="Enter the word mark you are searching for"
-                required></textarea>
-      <button type="submit" [disabled]="!wordmark.valid">Submit</button>
-    </form>
+  <!--    <form #wordmark='ngForm' (ngSubmit)="markSearch()">-->
+  <!--      <textarea rows="2" cols="30" type="text" name="wordMark" [(ngModel)]="mark"-->
+  <!--                placeholder="Enter the word mark you are searching for"-->
+  <!--                required></textarea>-->
+  <!--      <button type="submit" [disabled]="!wordmark.valid">Submit</button>-->
+  <!--    </form>-->
 
-    <h3>Search Broadness</h3>
+  <!--    <h3>Search Scope</h3>-->
 
-    <form>
-      <input type="radio" [(ngModel)]='searchWidth' id="option1" name="choice" value="same">
-      <label for="option1">Same Category</label><br>
+  <!--    <form>-->
+  <!--      <input type="radio" [(ngModel)]='searchScope' id="option1" name="choice" value="same">-->
+  <!--      <label for="option1">Same Category</label><br>-->
 
-      <input type="radio" id="option2" [(ngModel)]='searchWidth' name="choice" value="similar">
-      <label for="option2">Similar Categories</label><br>
+  <!--      <input type="radio" id="option2" [(ngModel)]='searchScope' name="choice" value="similar">-->
+  <!--      <label for="option2">Similar Categories</label><br>-->
 
-      <input type="radio" id="option3" [(ngModel)]='searchWidth' name="choice" value="all">
-      <label for="option3">All Categories</label>
-    </form>
-  </div>
+  <!--      <input type="radio" id="option3" [(ngModel)]='searchScope' name="choice" value="all">-->
+  <!--      <label for="option3">All Categories</label>-->
+  <!--    </form>-->
+  <!--  </div>-->
 
-  <!--This is the right side drag and drop area-->
-  <div class="mark-input-box">
-    <h1>Drag Image File Here</h1>
-    <p>Eventually this will be a drag and drop box</p>
-  </div>
+  <!--  &lt;!&ndash;This is the right side drag and drop area&ndash;&gt;-->
+  <!--  <div class="mark-input-box">-->
+  <!--    <h1>Drag Image File Here</h1>-->
+  <!--    <p>Eventually this will be a drag and drop box</p>-->
+  <!--  </div>-->
 </div>
 
 <br>

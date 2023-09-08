@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .nav-bar {
   display: flex;
   justify-content: space-between;
@@ -5,5 +10,16 @@
 
 .nav-bar a {
   text-decoration: none;
-  padding: 14px 16px;
+  margin: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.header-container {
+  display: flex;
+  background-color: #E8E7E7;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  height: 75px;
 }
