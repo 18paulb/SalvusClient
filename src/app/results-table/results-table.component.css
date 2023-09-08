@@ -4,7 +4,7 @@
 }
 
 .results-table th {
-  background-color: #4CAF50;
+  background-color: #396e93;
   color: white;
   padding: 8px;
 }
@@ -24,18 +24,43 @@
 
 .high-risk-level {
   display: flex;
-  background-color: red;
-  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #FFD5D1;
+  border-radius: 20px;
+  color: #A8071A;
 }
 
 .medium-risk-level {
   display: flex;
-  background-color: yellow;
-  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #FFF6D1;
+  border-radius: 20px;
+  color: #BF7B05;
 }
 
 .no-risk-level {
   display: flex;
-  background-color: lightgreen;
-  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #D9F7BE;
+  border-radius: 20px;
+  color: #0A5C1F;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+}
+
+.table-container {
+  display: flex;
+  margin: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column
 }

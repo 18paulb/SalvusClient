@@ -1,11 +1,21 @@
-<!--This is the results table-->
-<!--TODO: Include if statement for results component-->
+
+
 <div *ngIf="results.length != 0">
-  <h1>Search results for "{{searchedMark}}"</h1>
+  <h1 style="font-family: 'Inter', sans-serif; left: 100px;">Results for "{{searchedMark}}"</h1>
 </div>
 
+<!-- Pagination controls -->
+
+<!--The table itself-->
 <div *ngIf="results.length; else noResults"
-     style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+     class="table-container">
+  <div *ngIf="results.length">
+    <button class="nav-button" (click)="prevPage()" [disabled]="currentPage === 1"><i class="fas fa-arrow-left"></i>
+    </button>
+    <button class="nav-button" (click)="nextPage()" [disabled]="currentPage === totalPages"><i
+      class="fas fa-arrow-right"></i></button>
+  </div>
+
   <table class="results-table">
     <thead>
     <tr>
@@ -18,7 +28,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let result of results">
+    <tr *ngFor="let result of pagedItems">
       <td>{{result.mark_identification}}</td>
       <td>
         <p *ngFor="let owner of result.case_owners">
@@ -31,10 +41,12 @@
       </ng-template>
       <td>{{result.category}}</td>
       <td>{{result.date_filed}}</td>
-      <td [ngClass]= "{
-      'high-risk-level': result.riskLevel === 'red',
-      'medium-risk-level': result.riskLevel === 'yellow'
-      }">{{result.riskLevel}}</td>
+      <td>
+        <div [ngClass]="{
+      'high-risk-level': result.riskLevel === 'High Risk',
+      'medium-risk-level': result.riskLevel === 'Moderate Risk'
+      }"><p>{{result.riskLevel}}</p></div>
+      </td>
     </tr>
     </tbody>
   </table>

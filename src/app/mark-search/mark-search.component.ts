@@ -14,8 +14,6 @@ export class MarkSearchComponent {
   constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
   }
 
-  results: Trademark[] = [];
-  //selectedOption: [string, string] = ['', ''];
   options: [string, string][] = [['Chemicals', '001'], ['Paints', "002"], ['Cosmetics and Cleaning Preparations', "003"], ['Lubricants and Fuels', "004"], ['Pharmaceuticals', "005"],
     ['Metal Goods', "006"], ['Machinery', "007"], ['Hand Tools', "008"], ['Electrical and Scientific Apparatus', "009"], ['Medical Apparatus', "010"], ['Environmental Control Apparatus', '011'],
     ['Vehicles', '012'], ['Firearms', '013'], ['Jewelry', '014'], ['Musical Instruments', '015'], ['Paper Goods and Printed Matter', '016'], ['Rubber Goods', '017'], ['Leather Goods', '018'],
@@ -25,6 +23,9 @@ export class MarkSearchComponent {
     ['Insurance and Financial', '036'], ['Building Construction and Repair', '037'], ['Telecommunications', '038'], ['Transportation and Storage', '039'], ['Treatment of Materials', '040'],
     ['Educational and Entertainment', '041'], ['Computer and Scientific', '042'], ['Hotels and Restaurants', '043'], ['Medical, Beauty and Agricultural', '044'], ['Personal and Legal', '045']]
 
+  results: Trademark[] = [];
+
+  // selectedOption: [string, string] = ['', ''];
   // mark: string = '';
   // description: string = ''
   // classification: string = ''
@@ -32,18 +33,18 @@ export class MarkSearchComponent {
   mark: string = 'king'
   description: string = ''
   classification: string = ''
-  searchWidth: string = 'all'
+  searchScope: string = 'all'
   selectedOption: [string, string] = ['Chemicals', '001']
 
   public markSearch(): void {
     this.results = [];
 
-    if (this.mark == '' || this.selectedOption[1] == '' || this.searchWidth == '') {
+    if (this.mark == '' || this.selectedOption[1] == '' || this.searchScope == '') {
       throw Error
     }
 
     // To avoid exposing data via url, maybe use the authtoken to retrieve the company name and email in the server
-    this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}&searchWidth=${this.searchWidth}`, {
+    this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}&searchWidth=${this.searchScope}`, {
       headers: new HttpHeaders({
         // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
         'Authorization': `${localStorage.getItem('authtoken')}`
@@ -61,11 +62,19 @@ export class MarkSearchComponent {
             date_filed: this.convertDateFormat(trademark.date_filed),
             case_file_descriptions: trademark.case_file_descriptions,
             category: "TODO: Get Category",
-            riskLevel: riskLevel
+            riskLevel: this.convertRiskLevel(riskLevel)
           })
         }
 
         if (this.results.length != 0) {
+
+          //Sort the results
+          let customOrder = ["red", "yellow", "green"];
+
+          debugger
+
+          this.results = this.results.sort((a, b) => customOrder.indexOf(a.riskLevel) - customOrder.indexOf(b.riskLevel));
+
           this.resultsService.setResults(this.results)
           this.resultsService.setSearchedMark(this.mark)
           this.router.navigate(['/results-table'])
@@ -104,6 +113,17 @@ export class MarkSearchComponent {
 
     // Construct the formatted date string
     return `${day} ${monthNames[dateObj.getMonth()]} ${year}`;
+  }
+
+  public convertRiskLevel(riskLevel: string): string {
+    if (riskLevel == "yellow") return "Moderate Risk"
+
+    else if (riskLevel == "red") return "High Risk"
+
+    else if (riskLevel == "green") return "No Risk"
+
+    else return ""
+
   }
 
 }
