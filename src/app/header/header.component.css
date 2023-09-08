@@ -10,7 +10,8 @@
 
 .nav-bar a {
   text-decoration: none;
-  padding: 14px 16px;
+  margin: 20px;
+  font-family: 'Inter', sans-serif;
 }
 
 .header-container {

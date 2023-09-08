@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Trademark} from "../mark-search/trademarkModel";
+import {Trademark} from "../services/trademarkModel";
 import {ResultsService} from "../services/ResultsService";
 
 @Component({

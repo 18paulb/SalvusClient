@@ -7,9 +7,9 @@
 <div class="header-container">
   <h2 style="margin-left: 71px; font-family: 'Inter', sans-serif;">salvus</h2>
   <nav *ngIf='userService.getAuthToken() != null' class="nav-bar">
-    <a (click)="logout()" routerLink="">Log Out</a>
-    <a routerLink="/mark-search">Mark Search</a>
+    <a routerLink="/mark-search">Perform a Search</a>
     <a routerLink="/search-history">Search History</a>
+    <a (click)="logout()" routerLink="">Log Out</a>
   </nav>
 </div>
 

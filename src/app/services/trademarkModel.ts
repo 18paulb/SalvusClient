@@ -3,6 +3,6 @@ export interface Trademark {
   case_owners: [],
   date_filed: string;
   case_file_descriptions: string;
-  category: string;
+  codes: string;
   riskLevel: string;
 }

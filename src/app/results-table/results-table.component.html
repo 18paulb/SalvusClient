@@ -1,19 +1,20 @@
 
 
-<div *ngIf="results.length != 0">
-  <h1 style="font-family: 'Inter', sans-serif; left: 100px;">Results for "{{searchedMark}}"</h1>
-</div>
-
 <!-- Pagination controls -->
 
 <!--The table itself-->
 <div *ngIf="results.length; else noResults"
      class="table-container">
+  <div *ngIf="results.length != 0">
+    <h1 style="font-family: 'Inter', sans-serif; left: 100px;">{{results.length}} Results for "{{searchedMark}}"</h1>
+  </div>
   <div *ngIf="results.length">
-    <button class="nav-button" (click)="prevPage()" [disabled]="currentPage === 1"><i class="fas fa-arrow-left"></i>
+    <button class="nav-button" (click)="prevPage()" [disabled]="currentPage === 1">
+      <i class="fas fa-arrow-left"></i>
     </button>
-    <button class="nav-button" (click)="nextPage()" [disabled]="currentPage === totalPages"><i
-      class="fas fa-arrow-right"></i></button>
+    <button class="nav-button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+      <i class="fas fa-arrow-right"></i>
+    </button>
   </div>
 
   <table class="results-table">
@@ -39,7 +40,7 @@
       <ng-template #noDescription>
         <td>No description available</td>
       </ng-template>
-      <td>{{result.category}}</td>
+      <td>{{result.codes}}</td>
       <td>{{result.date_filed}}</td>
       <td>
         <div [ngClass]="{

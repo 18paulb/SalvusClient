@@ -45,8 +45,7 @@ body{
 
 .searchTerm {
   width: 100%;
-  border: 3px solid #00B4CC;
-  border-right: none;
+  border: none;
   padding: 5px;
   height: 20px;
   border-radius: 5px 0 0 5px;
@@ -60,13 +59,13 @@ body{
 
 .searchButton {
   width: 40px;
-  height: 36px;
+  height: 30px;
   border: 1px solid #00B4CC;
   background: #00B4CC;
   text-align: center;
   color: #fff;
   border-radius: 0 5px 5px 0;
-  cursor: pointer;
+  cursor: pointer !important;
   font-size: 20px;
 }
 
@@ -74,6 +73,7 @@ body{
 .wrap{
   width: 50%;
   position: relative;
+  margin-bottom: 20px;
 }
 
 .select-box {

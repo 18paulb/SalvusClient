@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ResultsService} from "../services/ResultsService";
-import {Trademark} from "./trademarkModel";
+import {Trademark} from "../services/trademarkModel";
 import {Router} from "@angular/router";
 
 @Component({
@@ -33,7 +33,7 @@ export class MarkSearchComponent {
   mark: string = 'king'
   description: string = ''
   classification: string = ''
-  searchScope: string = 'all'
+  searchScope: string = 'same'
   selectedOption: [string, string] = ['Chemicals', '001']
 
   public markSearch(): void {
@@ -43,43 +43,30 @@ export class MarkSearchComponent {
       throw Error
     }
 
-    // To avoid exposing data via url, maybe use the authtoken to retrieve the company name and email in the server
-    this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}&searchWidth=${this.searchScope}`, {
-      headers: new HttpHeaders({
-        // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
-        'Authorization': `${localStorage.getItem('authtoken')}`
+    if (this.searchScope == 'all') {
+      this.http.get(`http://localhost:8000/markSearch?query=${this.mark}`, {
+        headers: new HttpHeaders({
+          // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
+          'Authorization': `${localStorage.getItem('authtoken')}`
+        })
       })
-    })
-      .subscribe((data: any) => {
-        for (let i = 0; i < data.length; i++) {
+        .subscribe((data: any) => {
+          this.createTrademarks(data)
+        })
+    }
 
-          let trademark = data[i]['trademark']
-          let riskLevel = data[i]['riskLevel']
-
-          this.results.push({
-            mark_identification: trademark.mark_identification,
-            case_owners: trademark.case_owners,
-            date_filed: this.convertDateFormat(trademark.date_filed),
-            case_file_descriptions: trademark.case_file_descriptions,
-            category: "TODO: Get Category",
-            riskLevel: this.convertRiskLevel(riskLevel)
-          })
-        }
-
-        if (this.results.length != 0) {
-
-          //Sort the results
-          let customOrder = ["red", "yellow", "green"];
-
-          debugger
-
-          this.results = this.results.sort((a, b) => customOrder.indexOf(a.riskLevel) - customOrder.indexOf(b.riskLevel));
-
-          this.resultsService.setResults(this.results)
-          this.resultsService.setSearchedMark(this.mark)
-          this.router.navigate(['/results-table'])
-        }
+    if (this.searchScope == 'same') {
+      // To avoid exposing data via url, maybe use the authtoken to retrieve the company name and email in the server
+      this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}`, {
+        headers: new HttpHeaders({
+          // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
+          'Authorization': `${localStorage.getItem('authtoken')}`
+        })
       })
+        .subscribe((data: any) => {
+          this.createTrademarks(data)
+        })
+    }
   }
 
   public classifyCode(): void {
@@ -94,6 +81,35 @@ export class MarkSearchComponent {
         }
 
       })
+  }
+
+  public createTrademarks(data: any): void {
+    for (let i = 0; i < data.length; i++) {
+
+      let trademark = data[i]['trademark']
+      let riskLevel = data[i]['riskLevel']
+
+      this.results.push({
+        mark_identification: trademark.mark_identification,
+        case_owners: trademark.case_owners,
+        date_filed: this.convertDateFormat(trademark.date_filed),
+        case_file_descriptions: trademark.case_file_descriptions,
+        codes: this.convertCategoryCode(this.options, trademark.codes),
+        riskLevel: this.convertRiskLevel(riskLevel)
+      })
+    }
+
+    if (this.results.length != 0) {
+
+      //Sort the results
+      let customOrder = ["red", "yellow", "green"];
+
+      this.results = this.results.sort((a, b) => customOrder.indexOf(a.riskLevel) - customOrder.indexOf(b.riskLevel));
+
+      this.resultsService.setResults(this.results)
+      this.resultsService.setSearchedMark(this.mark)
+      this.router.navigate(['/results-table'])
+    }
   }
 
   public convertDateFormat(dateStr: string): string {
@@ -123,7 +139,16 @@ export class MarkSearchComponent {
     else if (riskLevel == "green") return "No Risk"
 
     else return ""
+  }
 
+  public convertCategoryCode(arr: [string, string][], number: string): string {
+
+    for (const [text, num] of arr) {
+      if (num === number) {
+        return text;
+      }
+    }
+    return "ERROR";  // return null if the number is not found
   }
 
 }
