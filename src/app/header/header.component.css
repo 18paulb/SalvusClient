@@ -23,3 +23,8 @@
   box-sizing: border-box;
   height: 75px;
 }
+
+.header_logo {
+  margin-left: 71px;
+  font-size: 35px;
+}
