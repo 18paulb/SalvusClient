@@ -25,16 +25,16 @@ export class MarkSearchComponent {
 
   results: Trademark[] = [];
 
-  // selectedOption: [string, string] = ['', ''];
-  // mark: string = '';
-  // description: string = ''
-  // classification: string = ''
-  // searchWidth: string = ''
-  mark: string = 'king'
+  selectedOption: [string, string] = ['', ''];
+  mark: string = '';
   description: string = ''
   classification: string = ''
   searchScope: string = 'same'
-  selectedOption: [string, string] = ['Chemicals', '001']
+  // mark: string = 'king'
+  // description: string = ''
+  // classification: string = ''
+  // searchScope: string = 'all'
+  // selectedOption: [string, string] = ['Chemicals', '001']
 
   public markSearch(): void {
     this.results = [];
@@ -44,7 +44,7 @@ export class MarkSearchComponent {
     }
 
     if (this.searchScope == 'all') {
-      this.http.get(`http://localhost:8000/markSearch?query=${this.mark}`, {
+      this.http.get(`http://localhost:8000/trademark/markSearchAll?query=${this.mark}&activeStatus=live`, {
         headers: new HttpHeaders({
           // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
           'Authorization': `${localStorage.getItem('authtoken')}`
@@ -57,14 +57,14 @@ export class MarkSearchComponent {
 
     if (this.searchScope == 'same') {
       // To avoid exposing data via url, maybe use the authtoken to retrieve the company name and email in the server
-      this.http.get(`http://localhost:8000/markSearch?query=${this.mark}&code=${this.selectedOption[1]}`, {
+      this.http.get(`http://localhost:8000/trademark/markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live`, {
         headers: new HttpHeaders({
           // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
           'Authorization': `${localStorage.getItem('authtoken')}`
         })
       })
         .subscribe((data: any) => {
-          this.createTrademarks(data)
+          this.createTrademarks(data.data)
         })
     }
   }
@@ -136,7 +136,7 @@ export class MarkSearchComponent {
 
     else if (riskLevel == "red") return "High Risk"
 
-    else if (riskLevel == "green") return "No Risk"
+    else if (riskLevel == "green") return "Low Risk"
 
     else return ""
   }
