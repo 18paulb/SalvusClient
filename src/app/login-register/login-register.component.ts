@@ -29,7 +29,7 @@ export class LoginRegisterComponent {
 
   public register(): void {
     try {
-      this.http.post<{ authtoken: string }>('http://localhost:8000/register', {
+      this.http.post<{ authtoken: string }>('http://localhost:8000/authentication/register', {
         email: this.registerEmail,
         password: this.registerPassword,
         company_name: this.companyName
@@ -52,7 +52,7 @@ export class LoginRegisterComponent {
 
   public login(): void {
     try {
-      this.http.post<{ authtoken: string }>('http://localhost:8000/login', {
+      this.http.post<{ authtoken: string }>('http://localhost:8000/authentication/login', {
         email: this.loginEmail,
         password: this.loginPassword
       }, {observe: 'response'}).subscribe(response => {

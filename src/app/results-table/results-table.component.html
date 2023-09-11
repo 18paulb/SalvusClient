@@ -45,7 +45,8 @@
       <td>
         <div [ngClass]="{
       'high-risk-level': result.riskLevel === 'High Risk',
-      'medium-risk-level': result.riskLevel === 'Moderate Risk'
+      'medium-risk-level': result.riskLevel === 'Moderate Risk',
+      'low-risk-level': result.riskLevel === 'Low Risk'
       }"><p>{{result.riskLevel}}</p></div>
       </td>
     </tr>
