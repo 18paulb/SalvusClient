@@ -3,25 +3,22 @@
   border-collapse: collapse;
 }
 
+.table-header{
+  border-bottom: 2px solid #CFDCE5;
+}
+
 .results-table th {
-  background-color: #396e93;
-  color: white;
-  padding: 8px;
+  padding: 0 0 20px 20px;
   text-align: start;
 }
 
 .results-table td {
-  border: 1px solid #ddd;
   padding: 20px;
   width: 10rem;
 }
 
 .results-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.results-table tr:nth-child(odd) {
-  background-color: #ffffff;
+  background-color: #F5F8FA;
 }
 
 .high-risk-level {

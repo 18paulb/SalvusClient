@@ -5,10 +5,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
 
 <div class="header-container">
-  <h2 style="margin-left: 71px; font-family: 'Inter', sans-serif;">salvus</h2>
+  <h2 class="header_logo"><a routerLink="">salvus</a></h2>
   <nav *ngIf='userService.getAuthToken() != null' class="nav-bar">
     <a routerLink="/mark-search">Perform a Search</a>
-    <a routerLink="/search-history">Search History</a>
     <a (click)="logout()" routerLink="">Log Out</a>
   </nav>
 </div>
