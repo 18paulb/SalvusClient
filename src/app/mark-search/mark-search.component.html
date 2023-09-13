@@ -34,6 +34,14 @@
           <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>
         </select>
       </div>
+<!--      <div class="dropdown">-->
+<!--        <input [(ngModel)]="categorySearchTerm" (input)="filterResults()" placeholder="Search..." />-->
+<!--        <select class="dropdown-content" *ngIf="filteredOptions.length > 0" [(ngModel)]="selectedOption" required>-->
+<!--          <option *ngFor="let option of filteredOptions" (click)="selectOption(option[0])">-->
+<!--            {{ option[0] }}-->
+<!--          </option>-->
+<!--        </select>-->
+<!--      </div>-->
 
       <div>
         <select class="select-box" name='searchScope' id="searchScope" [(ngModel)]="searchScope" required>

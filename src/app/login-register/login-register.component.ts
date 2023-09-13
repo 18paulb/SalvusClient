@@ -10,6 +10,7 @@ import {UserService} from "../services/UserService";
   styleUrls: ['./login-register.component.css']
 })
 export class LoginRegisterComponent {
+  baseUrl = "http://localhost:8000/authentication/";
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
@@ -29,7 +30,7 @@ export class LoginRegisterComponent {
 
   public register(): void {
     try {
-      this.http.post<{ authtoken: string }>('http://localhost:8000/authentication/register', {
+      this.http.post<{ authtoken: string }>(this.baseUrl + 'register', {
         email: this.registerEmail,
         password: this.registerPassword,
         company_name: this.companyName
@@ -52,7 +53,7 @@ export class LoginRegisterComponent {
 
   public login(): void {
     try {
-      this.http.post<{ authtoken: string }>('http://localhost:8000/authentication/login', {
+      this.http.post<{ authtoken: string }>(this.baseUrl + 'login', {
         email: this.loginEmail,
         password: this.loginPassword
       }, {observe: 'response'}).subscribe(response => {
