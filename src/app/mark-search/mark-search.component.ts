@@ -75,22 +75,39 @@ export class MarkSearchComponent {
         })
       })
         .subscribe((data: any) => {
-          this.createTrademarks(data)
+          this.createTrademarks(data.data)
         })
     }
 
     if (this.searchScope === 'Same') {
-      // To avoid exposing data via url, maybe use the authtoken to retrieve the company name and email in the server
-      this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live`, {
-        headers: new HttpHeaders({
-          // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
-          'Authorization': `${localStorage.getItem('authtoken')}`
-        })
-      })
-        .subscribe((data: any) => {
-          this.createTrademarks(data.data)
-        })
+      this.markSearchSameRecursive(null, true);
+      // this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live`, {
+      //   headers: new HttpHeaders({
+      //     // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
+      //     'Authorization': `${localStorage.getItem('authtoken')}`
+      //   })
+      // })
+      //   .subscribe((data: any) => {
+      //     this.createTrademarks(data.data);
+      //   })
     }
+  }
+
+  markSearchSameRecursive(lastEvaluatedKey : any, isFirstTime : boolean = false): void {
+    if (!isFirstTime && lastEvaluatedKey === null) {
+      return;
+    }
+
+    this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live&lastEvaluatedKey=${lastEvaluatedKey}`, {
+        headers: new HttpHeaders({
+            // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
+            'Authorization': `${localStorage.getItem('authtoken')}`
+        })
+    })
+        .subscribe((data: any) => {
+            this.createTrademarks(data.data);
+            this.markSearchSameRecursive(data.lastEvalutedKey);
+        })
   }
 
   public classifyCode(): void {
