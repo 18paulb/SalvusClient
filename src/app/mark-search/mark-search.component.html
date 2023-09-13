@@ -28,10 +28,18 @@
 
     <!--All the drop down menus-->
     <div style="display: flex; justify-content: space-between; width: 50%;">
-      <div>
-        <select class="select-box" name='selectedOption' id="selectedOption" [(ngModel)]="selectedOption" required>
-          <option value="" disabled [selected]="selectedOption === null">Product Category</option>
-          <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>
+<!--      <div>-->
+<!--        <select class="select-box" name='selectedOption' id="selectedOption" [(ngModel)]="selectedOption" required>-->
+<!--          <option value="" disabled [selected]="selectedOption === null">Product Category</option>-->
+<!--          <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>-->
+<!--        </select>-->
+<!--      </div>-->
+      <div class="dropdown">
+        <input [(ngModel)]="categorySearchTerm" (input)="filterResults()" placeholder="Search..." />
+        <select class="dropdown-content" *ngIf="filteredOptions.length > 0">
+          <option *ngFor="let option of filteredOptions" (click)="selectOption(option[0])">
+            {{ option[0] }}
+          </option>
         </select>
       </div>
 
