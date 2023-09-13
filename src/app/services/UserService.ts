@@ -18,6 +18,10 @@ export class UserService {
     return localStorage.getItem('authtoken');
   }
 
+  isAuthenticated(): boolean {
+    return localStorage.getItem('authtoken') != null
+   }
+
   logout() {
     localStorage.removeItem('authtoken');
     this.currentUser = null;
