@@ -10,6 +10,17 @@ textarea {
   margin: 5px;
 }
 
+.search-title {
+  font-size: 55px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.search-description {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
 .mark-input-box {
   display: flex;
   justify-content: center;
@@ -26,10 +37,11 @@ textarea {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: #E8E7E7;
-  height: 20em;
-  width: 80em;
-  border-radius: 24px;
+  background: #FFFFFF;
+  height: 520px;
+  width: 539px;
+  border-radius: 40px;
+  box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
 }
 
 body{

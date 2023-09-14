@@ -1,9 +1,6 @@
 <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 50px;">
-  <h1>Let's Get Started.</h1>
-  <p style="text-align: center;">Has your idea already been trademarked?
-    <br>
-    Input your prospective idea below
-  </p>
+  <h1 class="search-title">Let's get started.</h1>
+  <p class="search-description">Is your trademark at risk? Find out now.</p>
 </div>
 
 <!--This box contains both the manual enter and the file drag and drop-->
@@ -22,12 +19,8 @@
       </form>
     </div>
 
-
-
-
-
     <!--All the drop down menus-->
-    <div style="display: flex; justify-content: space-between; width: 50%;">
+    <div>
       <div>
         <select class="select-box" name='selectedOption' id="selectedOption" [(ngModel)]="selectedOption" required>
           <option value="" disabled [selected]="selectedOption === null">Product Category</option>
@@ -43,25 +36,63 @@
 <!--        </select>-->
 <!--      </div>-->
 
-      <div>
-        <select class="select-box" name='searchScope' id="searchScope" [(ngModel)]="searchScope" required>
-          <option value="" disabled [selected]="searchScope === null">Search Type</option>
-          <option>All</option>
-          <option>Similar</option>
-          <option>Same</option>
-        </select>
-      </div>
+<!--      <div>-->
+<!--        <select class="select-box" name='searchScope' id="searchScope" [(ngModel)]="searchScope" required>-->
+<!--          <option value="" disabled [selected]="searchScope === null">Search Type</option>-->
+<!--          <option>All</option>-->
+<!--          <option>Similar</option>-->
+<!--          <option>Same</option>-->
+<!--        </select>-->
+<!--      </div>-->
 
-      <div>
-        <select class="select-box" name='trademarkStatus' id="trademarkStatus" required>
-          <option>Live</option>
-          <option>Dead</option>
-          <option>Both</option>
-        </select>
-      </div>
+<!--      <div>-->
+<!--        <select class="select-box" name='trademarkStatus' id="trademarkStatus" required>-->
+<!--          <option>Live</option>-->
+<!--          <option>Dead</option>-->
+<!--          <option>Both</option>-->
+<!--        </select>-->
+<!--      </div>-->
     </div>
 
   </div>
+
+<!--  <div class="MacbookPro1423" style="width: 1512px; height: 982px; position: relative; background: #D3E6FE">
+  <div class="Frame3" style="width: 1512px; height: 75px; left: 0px; top: 0px; position: absolute; background: #1E293B; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)">
+    <div class="Salvus" style="width: 265px; height: 35px; left: 59px; top: 20px; position: absolute; color: white; font-size: 36px; font-family: Inter; font-weight: 800; word-wrap: break-word">salvus</div>
+    <div class="PlaceholderLabel" style="width: 93px; left: 217px; top: 33px; position: absolute; color: white; font-size: 15px; font-family: Inter; font-weight: 400; line-height: 22px; word-wrap: break-word">My Account</div>
+    <div class="PlaceholderLabel" style="width: 93px; left: 324px; top: 33px; position: absolute; color: white; font-size: 15px; font-family: Inter; font-weight: 400; line-height: 22px; word-wrap: break-word">Contact Us</div>
+  </div>
+  <div class="Rectangle13" style="width: 539px; height: 520px; left: 486px; top: 324px; position: absolute; background: white; box-shadow: 0px 4px 35px rgba(0, 0, 0, 0.08); border-radius: 40px"></div>
+  <div class="Group60" style="width: 451px; height: 232px; left: 530px; top: 444px; position: absolute">
+    <div class="Group54" style="width: 451px; height: 92px; left: 0px; top: 0px; position: absolute">
+      <div class="Rectangle17" style="width: 451px; height: 57px; left: 0px; top: 35px; position: absolute; background: white; border-radius: 9px; border: 1px #4285F4 solid"></div>
+      <div class="UsernameOrEmailAddress" style="width: 302px; height: 19px; left: 25px; top: 54px; position: absolute; color: #808080; font-size: 14px; font-family: Inter; font-weight: 300; word-wrap: break-word"> i.e. “Mickey Mouse”</div>
+    </div>
+    <div class="Group55" style="width: 451px; height: 92px; left: 0px; top: 140px; position: absolute">
+      <div class="EnterYourPassword" style="left: 0px; top: -2px; position: absolute; color: black; font-size: 16px; font-family: Inter; font-weight: 400; word-wrap: break-word">Select Trademark Industry</div>
+      <div class="Rectangle17" style="width: 451px; height: 57px; left: 0px; top: 35px; position: absolute; background: white; border-radius: 9px; border: 1px #ADADAD solid"></div>
+      <div class="Password" style="width: 302px; height: 19px; left: 25px; top: 54px; position: absolute; color: #808080; font-size: 14px; font-family: Inter; font-weight: 300; word-wrap: break-word">None</div>
+    </div>
+    <div class="EnterTrademark" style="left: 4px; top: 0px; position: absolute; color: black; font-size: 16px; font-family: Inter; font-weight: 400; word-wrap: break-word">Enter Trademark</div>
+  </div>
+  <div class="Group56" style="width: 451px; height: 54px; left: 534px; top: 720px; position: absolute">
+    <div class="Rectangle18" style="width: 451px; height: 54px; left: 0px; top: 0px; position: absolute; background: #4285F4; box-shadow: 0px 4px 19px rgba(119, 147, 65, 0.30); border-radius: 10px"></div>
+    <div class="Search" style="width: 74px; left: 198px; top: 15px; position: absolute; color: white; font-size: 16px; font-family: Inter; font-weight: 500; word-wrap: break-word">Search</div>
+  </div>
+  <div class="LetSGetStarted" style="width: 455px; height: 55.70px; left: 530px; top: 156px; position: absolute; color: black; font-size: 55px; font-family: Inter; font-weight: 700; word-wrap: break-word">Let’s get started.</div>
+  <div class="Search" style="left: 701px; top: 366px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Search</div>
+  <div class="Button" style="width: 29.50px; height: 24.72px; padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; left: 961px; top: 634.24px; position: absolute; transform: rotate(90.55deg); transform-origin: 0 0; border-radius: 6px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+    <div class="Frame" style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
+      <div class="IconChevronRight" style="width: 20px; height: 20px; justify-content: center; align-items: center; display: flex">
+        <div class="Group" style="width: 20px; height: 20px; position: relative">
+          <div class="Rectangle3" style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute"></div>
+          <div style="width: 5.15px; height: 8.80px; left: 7.24px; top: 5.58px; position: absolute; background: #69788C"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="IsYourTrademarkAtRiskFindOutNow" style="width: 638px; height: 61px; left: 434px; top: 229px; position: absolute; text-align: center; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">Is your trademark at risk? Find out now. </div>
+</div>-->
 
 
   <!--This will be the left side manually input text area-->
