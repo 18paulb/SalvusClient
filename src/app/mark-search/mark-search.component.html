@@ -61,6 +61,15 @@
       </div>
     </div>
 
+    <div *ngIf="results.length; else noResults"
+         style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+      <h1>Search results for "{{mark}}"</h1>
+      <app-results-table></app-results-table>
+    </div>
+    <ng-template #noResults>
+      <h1 style="text-align: center">No Results Found</h1>
+    </ng-template>
+
   </div>
 
 

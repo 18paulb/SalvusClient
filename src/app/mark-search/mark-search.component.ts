@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ResultsService} from "../services/ResultsService";
 import {Trademark} from "../services/trademarkModel";
 import {Router} from "@angular/router";
+import {firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-mark-search',
@@ -66,6 +67,7 @@ export class MarkSearchComponent {
     if (this.mark == '' || this.selectedOption[1] == '' || this.searchScope == '') {
       throw Error
     }
+    debugger
 
     if (this.searchScope === 'All') {
       this.http.get(this.baseUrl + `markSearchAll?query=${this.mark}&activeStatus=live`, {
@@ -93,21 +95,42 @@ export class MarkSearchComponent {
     }
   }
 
-  markSearchSameRecursive(lastEvaluatedKey : any, isFirstTime : boolean = false): void {
+  async markSearchSameRecursive(lastEvaluatedKey : any, isFirstTime : boolean = false): Promise<void> {
     if (!isFirstTime && lastEvaluatedKey === null) {
       return;
     }
+    debugger
 
-    this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live&lastEvaluatedKey=${lastEvaluatedKey}`, {
-        headers: new HttpHeaders({
-            // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
-            'Authorization': `${localStorage.getItem('authtoken')}`
-        })
-    })
-        .subscribe((data: any) => {
-            this.createTrademarks(data.data);
-            this.markSearchSameRecursive(data.lastEvalutedKey);
-        })
+    let data = await this.getSameSearch(lastEvaluatedKey);
+
+    debugger
+    this.createTrademarks(data.data);
+    this.markSearchSameRecursive(data.lastEvaluatedKey);
+
+    // this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live&lastEvaluatedKey=${lastEvaluatedKey}`, {
+    //     headers: new HttpHeaders({
+    //         // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
+    //         'Authorization': `${localStorage.getItem('authtoken')}`
+    //     })
+    // }).subscribe((data: any) => {
+    //       debugger
+    //       this.createTrademarks(data.data);
+    //       this.markSearchSameRecursive(data.lastEvalutedKey);
+    //     })
+  }
+
+  async getSameSearch(lastEvaluatedKey : any): Promise<any> {
+    let lastEvalString = "";
+    if (lastEvaluatedKey !== null) {
+      lastEvalString = `&lastEvaluatedKey=${JSON.stringify(lastEvaluatedKey)}`;
+    }
+    debugger
+    return firstValueFrom(this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live${lastEvalString}`, {
+      headers: new HttpHeaders({
+        // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
+        'Authorization': `${localStorage.getItem('authtoken')}`
+      })
+    }));
   }
 
   public classifyCode(): void {
@@ -149,7 +172,7 @@ export class MarkSearchComponent {
 
       this.resultsService.setResults(this.results)
       this.resultsService.setSearchedMark(this.mark)
-      this.router.navigate(['/results-table'])
+      // this.router.navigate(['/results-table'])
     }
   }
 
