@@ -5,26 +5,30 @@
 
 .nav-bar {
   display: flex;
+  margin: 6px 0 0 20px;
   justify-content: space-between;
 }
 
 .nav-bar a {
+  margin-left: 20px;
   text-decoration: none;
-  margin: 20px;
+  font-size: 15px;
+  letter-spacing: -0.408px;
   font-family: 'Inter', sans-serif;
 }
 
 .header-container {
   display: flex;
-  background-color: #E8E7E7;
   align-items: center;
+  background-color: #1E293B;
   width: 100%;
-  padding: 0;
+  padding-top: 10px;
   box-sizing: border-box;
   height: 75px;
+  color: #FFFFFF;
 }
 
 .header_logo {
   margin-left: 71px;
-  font-size: 35px;
+  font-size: 36px;
 }

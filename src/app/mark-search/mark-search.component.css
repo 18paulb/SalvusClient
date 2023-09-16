@@ -10,15 +10,26 @@ textarea {
   margin: 5px;
 }
 
+.search-title {
+  font-size: 55px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.search-description {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
 .mark-input-box {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: #E8E7E7;
-  height: 20em;
-  width: 80em;
-  border-radius: 24px;
+  background: #FFFFFF;
+  height: 520px;
+  width: 539px;
+  border-radius: 40px;
+  box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
 }
 
 body{
@@ -32,14 +43,13 @@ body{
   display: flex;
 }
 
-.searchTerm {
+.search-box__input {
+  height: 57px;
+  border: 1px solid #ADADAD;
+  border-radius: 9px;
   width: 100%;
-  border: none;
-  padding: 5px;
-  height: 20px;
-  border-radius: 5px 0 0 5px;
-  outline: none;
-  color: #9DBFAF;
+  padding-left: 25px;
+  margin: 15px 0 45px 0;
 }
 
 .searchTerm:focus{
@@ -47,28 +57,16 @@ body{
 }
 
 .searchButton {
-  width: 40px;
-  height: 30px;
-  border: 1px solid #00B4CC;
-  background: #00B4CC;
+  width: 100%;
+  height: 54px;
   text-align: center;
   color: #fff;
-  border-radius: 0 5px 5px 0;
+  border: none;
+  border-radius: 10px;
+  background: #4285F4;
+  box-shadow: 0 4px 19px 0 rgba(119, 147, 65, 0.30);
   cursor: pointer !important;
-  font-size: 20px;
-}
-
-/*Resize the wrap to see the search bar change!*/
-.wrap{
-  width: 50%;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.select-box {
-  width: 150px;
-  max-width: 150px;
-  min-width: 150px;
+  font-size: 16px;
 }
 
 .dropdown {
@@ -93,6 +91,13 @@ body{
   background-color: #ddd;
 }
 
+.search-box__title {
+  font-size: 32px;
+  padding: 40px;
+}
+
+.search-box__details {
+  width: 85%;
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #3498db; /* Blue */

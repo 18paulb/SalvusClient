@@ -36,7 +36,7 @@ export class MarkSearchComponent {
 
   results: Trademark[] = [];
 
-  selectedOption: [string, string] = ['', ''];
+  selectedOption: string | null = null;
   mark: string = '';
   description: string = ''
   classification: string = ''
@@ -71,7 +71,7 @@ export class MarkSearchComponent {
       this.results = [];
     }
 
-    if (this.mark == '' || this.selectedOption[1] == '' || this.searchScope == '') {
+    if (this.mark == '' || this.selectedOption == null || this.searchScope == '') {
       throw Error
     }
 
@@ -157,7 +157,7 @@ export class MarkSearchComponent {
         //This sets the selected option to the classification if it is in the list of options
         //Basically sets the code for the search and also picks an option from the dropdown of classifications
         if (this.options.some(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())) {
-          this.selectedOption = this.options.find(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())!
+          this.selectedOption = this.options.find(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())![1]
         }
 
       })
