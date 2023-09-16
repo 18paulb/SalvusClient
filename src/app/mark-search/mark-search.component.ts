@@ -45,10 +45,6 @@ export class MarkSearchComponent {
   filteredOptions = [...this.options];
   categorySearchTerm = '';
 
-  MAX_CALLS = 5;
-
-  numCallsMade: number = 0;
-
   lastEvaluatedKey: any = null;
 
   isLoading: boolean = false;
@@ -66,45 +62,28 @@ export class MarkSearchComponent {
 
   async markSearch() {
 
-    // todo: make sure to reset the results when a new mark is searched but not when more results are loaded in
-    if (this.numCallsMade === 0) {
-      this.results = [];
+    try {
+      if (this.mark == '' || this.selectedOption == null || this.searchScope == '') {
+        console.log("Missing mark identification or an option has not been selected")
+        return
+      }
+
+      this.isLoading = true;
+
+      if (this.searchScope === 'All') {
+        await this.markSearchAllRecursive(this.lastEvaluatedKey, true)
+      }
+
+      if (this.searchScope === 'Same') {
+        let data = await this.getSameSearch(null)
+        this.createTrademarks(data.data);
+      }
+
+      this.isLoading = false;
+    } catch (error) {
+      alert("An error has occurred, try refreshing the page or changing your search")
+      this.isLoading = false;
     }
-
-    if (this.mark == '' || this.selectedOption == null || this.searchScope == '') {
-      throw Error
-    }
-
-    this.numCallsMade = 0;
-    this.isLoading = true;
-
-    if (this.searchScope === 'All') {
-      await this.markSearchAllRecursive(this.lastEvaluatedKey, true)
-    }
-
-    if (this.searchScope === 'Same') {
-      await this.markSearchSameRecursive(this.lastEvaluatedKey, true);
-    }
-
-    this.isLoading = false;
-  }
-
-  async markSearchSameRecursive(lastEvaluatedKey: any, isFirstTime: boolean = false): Promise<void> {
-    if (!isFirstTime && lastEvaluatedKey === null) {
-      return;
-    }
-
-    if (this.numCallsMade == this.MAX_CALLS) {
-      return;
-    }
-
-    let data = await this.getSameSearch(lastEvaluatedKey);
-
-    this.numCallsMade += 1
-
-    this.createTrademarks(data.data);
-    this.lastEvaluatedKey = data.lastEvaluatedKey
-    await this.markSearchSameRecursive(this.lastEvaluatedKey);
   }
 
   async getSameSearch(lastEvaluatedKey: any): Promise<any> {
@@ -125,11 +104,11 @@ export class MarkSearchComponent {
       return;
     }
 
-    if (this.numCallsMade == this.MAX_CALLS) return;
+    // if (this.numCallsMade == this.MAX_CALLS) return;
 
     let data = await this.getAllSearch(lastEvaluatedKey);
 
-    this.numCallsMade += 1
+    // this.numCallsMade += 1
 
     this.createTrademarks(data.data);
     this.lastEvaluatedKey = data.lastEvaluatedKey

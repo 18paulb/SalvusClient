@@ -30,16 +30,14 @@
             </form>
         </div>
     </div>
+</div>
 
-    <!--This box contains both the manual enter and the file drag and drop-->
-    <div style="display:flex; justify-content: space-evenly; align-items: center; flex-direction: column">
+<div style="display:flex; justify-content: space-evenly; align-items: center; flex-direction: column">
 
-        <app-results-table [results]="this.results"></app-results-table>
-        <div class="loader" *ngIf="this.isLoading"></div>
+  <app-results-table [results]="this.results"></app-results-table>
+  <div class="loader" *ngIf="this.isLoading"></div>
 
-        <div *ngIf="this.numCallsMade === this.MAX_CALLS">
-            <button (click)="markSearch()">Load More Results</button>
-        </div>
-    </div>
-
-    <br>
+<!--  <div *ngIf="this.numCallsMade === this.MAX_CALLS">-->
+<!--    <button (click)="markSearch()">Load More Results</button>-->
+<!--  </div>-->
+</div>
