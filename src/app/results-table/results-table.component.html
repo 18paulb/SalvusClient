@@ -1,25 +1,10 @@
-
-
-<!-- Pagination controls -->
-
 <!--The table itself-->
-<div *ngIf="results.length; else noResults"
+<div *ngIf="results.length;"
      class="table-container">
-  <div *ngIf="results.length != 0">
-    <h1 style="font-family: 'Inter', sans-serif; left: 100px;">{{results.length}} Results for "{{searchedMark}}"</h1>
-  </div>
-  <div *ngIf="results.length">
-    <button class="nav-button" (click)="prevPage()" [disabled]="currentPage === 1">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    <button class="nav-button" (click)="nextPage()" [disabled]="currentPage === totalPages">
-      <i class="fas fa-arrow-right"></i>
-    </button>
-  </div>
 
   <table class="results-table">
     <thead class="table-header">
-    <tr>
+    <tr style="background-color: #4A8FFF">
       <th>Name/Word Mark</th>
       <th>Company Name</th>
       <th>Description</th>
@@ -29,18 +14,25 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let result of pagedItems">
-      <td>{{result.mark_identification}}</td>
+    <tr *ngFor="let result of results">
+      <td>
+        <p>
+          <strong>{{result.mark_identification}}</strong>
+        </p>
+      </td>
+
       <td>
         <p *ngFor="let owner of result.case_owners">
           {{owner}}
         </p>
       </td>
-      <td *ngIf="result.case_file_descriptions; else noDescription">{{result.case_file_descriptions}}</td>
+      <td *ngIf="result.case_file_description; else noDescription">
+        <div class="case-file-descriptions">{{result.case_file_description}}</div>
+      </td>
       <ng-template #noDescription>
         <td>No description available</td>
       </ng-template>
-      <td>{{result.codes}}</td>
+      <td>{{result.code}}</td>
       <td>{{result.date_filed}}</td>
       <td>
         <div [ngClass]="{
@@ -53,6 +45,6 @@
     </tbody>
   </table>
 </div>
-<ng-template #noResults>
-  <h1 style="text-align: center">No Results Found</h1>
-</ng-template>
+<!--<ng-template #noResults>-->
+<!--  <h1 style="text-align: center">No Results Found</h1>-->
+<!--</ng-template>-->
