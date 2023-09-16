@@ -113,7 +113,7 @@ export class MarkSearchComponent {
       lastEvalString = `&lastEvaluatedKey=${JSON.stringify(lastEvaluatedKey)}`;
     }
 
-    return firstValueFrom(this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live${lastEvalString}`, {
+    return firstValueFrom(this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption}&activeStatus=live${lastEvalString}`, {
       headers: new HttpHeaders({
         'Authorization': `${localStorage.getItem('authtoken')}`
       })
