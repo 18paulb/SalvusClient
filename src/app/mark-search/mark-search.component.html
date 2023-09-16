@@ -1,108 +1,109 @@
 <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 50px;">
-  <h1 class="search-title">Let's get started.</h1>
-  <p class="search-description">Is your trademark at risk? Find out now.</p>
+    <h1 class="search-title">Let's get started.</h1>
+    <p class="search-description">Is your trademark at risk? Find out now.</p>
 </div>
 
-<!--This box contains both the manual enter and the file drag and drop-->
+<!--Search Box-->
 <div style="display:flex; justify-content: space-evenly; align-items: center;">
+    <div class="mark-input-box">
+        <div class="search-box__title">Search</div>
+        <div class="search-box__details">
+            <div class="search-sub-title">Enter Trademark</div>
 
-  <div class="mark-input-box-test">
+            <!--The Search-->
+            <form class="search" #wordmark='ngForm' (ngSubmit)="markSearch()">
+                <input name="wordMark" [(ngModel)]="mark" type="text" class="search-box__input"
+                       placeholder="i.e. Nike">
+            </form>
 
-    <!--The Search Bar-->
+            <!--All the drop down menus-->
+            <div class="dropdown-title">Select Trademark Industry</div>
+            <div>
+                <select class="search-box__input" [(ngModel)]="selectedOption"
+                        required>
+                    <!--                    <option value="" disabled [selected]="selectedOption === null">Product Category</option>-->
+                    <option [ngValue]=null disabled>None</option>
+                    <option *ngFor="let option of options" [ngValue]="option[1]">{{option[0]}}</option>
+                </select>
+            </div>
 
-    <div class="wrap">
-      <form class="search" #wordmark='ngForm' (ngSubmit)="markSearch()">
-        <input name="wordMark" [(ngModel)]="mark" type="text" class="searchTerm" placeholder="Search Product Name">
-        <button type="submit" class="searchButton" [disabled]="!wordmark.valid">
-          <i class="fa fa-search"></i>
-        </button>
-      </form>
+            <button type="submit" class="searchButton" [disabled]="!wordmark.valid">Search</button>
+        </div>
     </div>
+    <!--      <div class="dropdown">-->
+    <!--        <input [(ngModel)]="categorySearchTerm" (input)="filterResults()" placeholder="Search..." />-->
+    <!--        <select class="dropdown-content" *ngIf="filteredOptions.length > 0" [(ngModel)]="selectedOption" required>-->
+    <!--          <option *ngFor="let option of filteredOptions" (click)="selectOption(option[0])">-->
+    <!--            {{ option[0] }}-->
+    <!--          </option>-->
+    <!--        </select>-->
+    <!--      </div>-->
 
-    <!--All the drop down menus-->
-    <div>
-      <div>
-        <select class="select-box" name='selectedOption' id="selectedOption" [(ngModel)]="selectedOption" required>
-          <option value="" disabled [selected]="selectedOption === null">Product Category</option>
-          <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>
-        </select>
-      </div>
-<!--      <div class="dropdown">-->
-<!--        <input [(ngModel)]="categorySearchTerm" (input)="filterResults()" placeholder="Search..." />-->
-<!--        <select class="dropdown-content" *ngIf="filteredOptions.length > 0" [(ngModel)]="selectedOption" required>-->
-<!--          <option *ngFor="let option of filteredOptions" (click)="selectOption(option[0])">-->
-<!--            {{ option[0] }}-->
-<!--          </option>-->
-<!--        </select>-->
-<!--      </div>-->
+    <!--      <div>-->
+    <!--        <select class="select-box" name='searchScope' id="searchScope" [(ngModel)]="searchScope" required>-->
+    <!--          <option value="" disabled [selected]="searchScope === null">Search Type</option>-->
+    <!--          <option>All</option>-->
+    <!--          <option>Similar</option>-->
+    <!--          <option>Same</option>-->
+    <!--        </select>-->
+    <!--      </div>-->
 
-<!--      <div>-->
-<!--        <select class="select-box" name='searchScope' id="searchScope" [(ngModel)]="searchScope" required>-->
-<!--          <option value="" disabled [selected]="searchScope === null">Search Type</option>-->
-<!--          <option>All</option>-->
-<!--          <option>Similar</option>-->
-<!--          <option>Same</option>-->
-<!--        </select>-->
-<!--      </div>-->
+    <!--      <div>-->
+    <!--        <select class="select-box" name='trademarkStatus' id="trademarkStatus" required>-->
+    <!--          <option>Live</option>-->
+    <!--          <option>Dead</option>-->
+    <!--          <option>Both</option>-->
+    <!--        </select>-->
+    <!--      </div>-->
 
-<!--      <div>-->
-<!--        <select class="select-box" name='trademarkStatus' id="trademarkStatus" required>-->
-<!--          <option>Live</option>-->
-<!--          <option>Dead</option>-->
-<!--          <option>Both</option>-->
-<!--        </select>-->
-<!--      </div>-->
-    </div>
-  </div>
+    <!--This will be the left side manually input text area-->
+    <!--  <div class="mark-input-box">-->
+    <!--    <h1>Perform a Search</h1>-->
 
-  <!--This will be the left side manually input text area-->
-  <!--  <div class="mark-input-box">-->
-  <!--    <h1>Perform a Search</h1>-->
+    <!--    <form #markdescription='ngForm' (ngSubmit)="classifyCode()">-->
+    <!--      <textarea rows="5" cols="30" type="text" name="description" [(ngModel)]="description"-->
+    <!--                placeholder="Enter description of your product or service"-->
+    <!--                required></textarea>-->
+    <!--      <button type="submit" [disabled]="!markdescription.valid">Submit</button>-->
+    <!--    </form>-->
 
-  <!--    <form #markdescription='ngForm' (ngSubmit)="classifyCode()">-->
-  <!--      <textarea rows="5" cols="30" type="text" name="description" [(ngModel)]="description"-->
-  <!--                placeholder="Enter description of your product or service"-->
-  <!--                required></textarea>-->
-  <!--      <button type="submit" [disabled]="!markdescription.valid">Submit</button>-->
-  <!--    </form>-->
+    <!--    <div *ngIf="classification != ''">-->
+    <!--      <p style="text-align: center">`{{classification}}` best matches your-->
+    <!--        description. Is that correct? If not select from the options below</p>-->
+    <!--    </div>-->
 
-  <!--    <div *ngIf="classification != ''">-->
-  <!--      <p style="text-align: center">`{{classification}}` best matches your-->
-  <!--        description. Is that correct? If not select from the options below</p>-->
-  <!--    </div>-->
+    <!--    <div>-->
+    <!--      <select name='selectedOption' [(ngModel)]="selectedOption" required>-->
+    <!--        <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>-->
+    <!--      </select>-->
+    <!--    </div>-->
 
-  <!--    <div>-->
-  <!--      <select name='selectedOption' [(ngModel)]="selectedOption" required>-->
-  <!--        <option *ngFor="let option of options" [ngValue]="option">{{option[0]}}</option>-->
-  <!--      </select>-->
-  <!--    </div>-->
+    <!--    <form #wordmark='ngForm' (ngSubmit)="markSearch()">-->
+    <!--      <textarea rows="2" cols="30" type="text" name="wordMark" [(ngModel)]="mark"-->
+    <!--                placeholder="Enter the word mark you are searching for"-->
+    <!--                required></textarea>-->
+    <!--      <button type="submit" [disabled]="!wordmark.valid">Submit</button>-->
+    <!--    </form>-->
 
-  <!--    <form #wordmark='ngForm' (ngSubmit)="markSearch()">-->
-  <!--      <textarea rows="2" cols="30" type="text" name="wordMark" [(ngModel)]="mark"-->
-  <!--                placeholder="Enter the word mark you are searching for"-->
-  <!--                required></textarea>-->
-  <!--      <button type="submit" [disabled]="!wordmark.valid">Submit</button>-->
-  <!--    </form>-->
+    <!--    <h3>Search Scope</h3>-->
 
-  <!--    <h3>Search Scope</h3>-->
+    <!--    <form>-->
+    <!--      <input type="radio" [(ngModel)]='searchScope' id="option1" name="choice" value="same">-->
+    <!--      <label for="option1">Same Category</label><br>-->
 
-  <!--    <form>-->
-  <!--      <input type="radio" [(ngModel)]='searchScope' id="option1" name="choice" value="same">-->
-  <!--      <label for="option1">Same Category</label><br>-->
+    <!--      <input type="radio" id="option2" [(ngModel)]='searchScope' name="choice" value="similar">-->
+    <!--      <label for="option2">Similar Categories</label><br>-->
 
-  <!--      <input type="radio" id="option2" [(ngModel)]='searchScope' name="choice" value="similar">-->
-  <!--      <label for="option2">Similar Categories</label><br>-->
+    <!--      <input type="radio" id="option3" [(ngModel)]='searchScope' name="choice" value="all">-->
+    <!--      <label for="option3">All Categories</label>-->
+    <!--    </form>-->
+    <!--  </div>-->
 
-  <!--      <input type="radio" id="option3" [(ngModel)]='searchScope' name="choice" value="all">-->
-  <!--      <label for="option3">All Categories</label>-->
-  <!--    </form>-->
-  <!--  </div>-->
-
-  <!--  &lt;!&ndash;This is the right side drag and drop area&ndash;&gt;-->
-  <!--  <div class="mark-input-box">-->
-  <!--    <h1>Drag Image File Here</h1>-->
-  <!--    <p>Eventually this will be a drag and drop box</p>-->
-  <!--  </div>-->
+    <!--  &lt;!&ndash;This is the right side drag and drop area&ndash;&gt;-->
+    <!--  <div class="mark-input-box">-->
+    <!--    <h1>Drag Image File Here</h1>-->
+    <!--    <p>Eventually this will be a drag and drop box</p>-->
+    <!--  </div>-->
 </div>
 
 <br>

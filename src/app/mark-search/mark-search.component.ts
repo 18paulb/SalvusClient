@@ -35,7 +35,7 @@ export class MarkSearchComponent {
 
   results: Trademark[] = [];
 
-  selectedOption: [string, string] = ['', ''];
+  selectedOption: string | null = null;
   mark: string = '';
   description: string = ''
   classification: string = ''
@@ -63,7 +63,7 @@ export class MarkSearchComponent {
   public markSearch(): void {
     this.results = [];
 
-    if (this.mark == '' || this.selectedOption[1] == '' || this.searchScope == '') {
+    if (this.mark == '' || this.selectedOption == null || this.searchScope == '') {
       throw Error
     }
 
@@ -98,7 +98,7 @@ export class MarkSearchComponent {
       return;
     }
 
-    this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption[1]}&activeStatus=live&lastEvaluatedKey=${lastEvaluatedKey}`, {
+    this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption}&activeStatus=live&lastEvaluatedKey=${lastEvaluatedKey}`, {
         headers: new HttpHeaders({
             // 'Authorization': `Bearer ${localStorage.getItem('authtoken')}`
             'Authorization': `${localStorage.getItem('authtoken')}`
@@ -118,7 +118,7 @@ export class MarkSearchComponent {
         //This sets the selected option to the classification if it is in the list of options
         //Basically sets the code for the search and also picks an option from the dropdown of classifications
         if (this.options.some(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())) {
-          this.selectedOption = this.options.find(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())!
+          this.selectedOption = this.options.find(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())![1]
         }
 
       })
