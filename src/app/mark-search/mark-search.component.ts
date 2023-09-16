@@ -225,7 +225,6 @@ export class MarkSearchComponent {
     return "ERROR";  // return null if the number is not found
   }
 
-  protected readonly KeyboardEvent = KeyboardEvent;
 }
 
 
