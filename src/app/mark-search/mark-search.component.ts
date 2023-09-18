@@ -11,7 +11,8 @@ import {firstValueFrom} from "rxjs";
   styleUrls: ['./mark-search.component.css']
 })
 export class MarkSearchComponent {
-  baseUrl = "http://localhost:8000/trademark/";
+  // baseUrl = "http://localhost:8000/trademark/";
+  baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
 
   constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
   }
