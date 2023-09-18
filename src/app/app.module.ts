@@ -12,6 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { SearchHistoryComponent } from './search-history/search-history.component';
 import { ResultsTableComponent } from './results-table/results-table.component';
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ResultsTableComponent } from './results-table/results-table.component';
       cookieName: 'csrftoken',
       headerName: 'X-CSRFToken',
     }),
-    RouterModule
+    RouterModule,
+    NgOptimizedImage
 
   ],
   providers: [],
