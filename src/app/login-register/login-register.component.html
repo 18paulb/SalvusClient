@@ -1,16 +1,54 @@
-<h1>Register</h1>
-<form #registerform='ngForm' (ngSubmit)="register()">
-  <input type="text" name="email" [(ngModel)]="registerEmail" placeholder="Enter Email" required>
-  <input type="password" name="password" [(ngModel)]="registerPassword" placeholder="Enter Password" required>
-  <input type="text" name="companyName" [(ngModel)]="companyName" placeholder="Enter Company Name" required>
-  <button type="submit" [disabled]="!registerform.valid">Register</button>
-</form>
+<div style="display: flex; justify-content: space-evenly;">
 
-<h1>Log In</h1>
-<form #loginform='ngForm' (ngSubmit)="login()">
-  <input type="text" name="email" [(ngModel)]="loginEmail" placeholder="Enter Email" required>
-  <input type="password" name="password" [(ngModel)]="loginPassword" placeholder="Enter Password" required>
-  <button type="submit" [disabled]="!loginform.valid">Log In</button>
-</form>
+  <div>
+    <img ngSrc="assets/homePageImage.svg" alt="Man using computer" height="550" width="608">
+  </div>
 
+  <div class="flex-item" style="display: flex; align-self: flex-start; justify-content: center; align-items: center; flex-direction: column; margin-top: 60px;">
 
+    <h1>Welcome to Salvus</h1>
+
+    <div>
+      <button (click)="showLoginForm = true; showRegisterForm = false">Login</button>
+      <button (click)="showRegisterForm = true; showLoginForm = false">Register</button>
+    </div>
+
+    <div style="display: flex; border: 2px solid rgb(128,128,128); box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08); border-radius: 40px;">
+      <div *ngIf="showRegisterForm" class="form-container">
+        <form #registerform='ngForm' (ngSubmit)="register()">
+          <label for="registerEmail" class="form-label">Email</label>
+          <input type="text" id="registerEmail" name="email" [(ngModel)]="registerEmail" placeholder="Enter Email"
+                 required>
+
+          <label for="companyName" class="form-label">Company Name</label>
+          <input type="text" id="companyName" name="companyName" [(ngModel)]="companyName"
+                 placeholder="Enter Company Name" required>
+
+          <label for="registerPassword" class="form-label">Password</label>
+          <input type="password" id="registerPassword" name="password" [(ngModel)]="registerPassword"
+                 placeholder="Enter Password" required>
+
+          <label for="confirmedRegisterPassword" class="form-label">Confirm Password</label>
+          <input type="password" id="confirmedRegisterPassword" name="confirmedPassword"
+                 [(ngModel)]="confirmedRegisterPassword" placeholder="Confirm Password" required>
+
+          <button type="submit" [disabled]="!registerform.valid">Register</button>
+        </form>
+      </div>
+
+      <div *ngIf="showLoginForm" class="form-container">
+        <form #loginform='ngForm' (ngSubmit)="login()">
+          <label for="loginEmail" class="form-label">Email</label>
+          <input type="text" id="loginEmail" name="email" [(ngModel)]="loginEmail" placeholder="Enter Email" required>
+
+          <label for="loginPassword" class="form-label">Password</label>
+          <input type="password" id="loginPassword" name="password" [(ngModel)]="loginPassword"
+                 placeholder="Enter Password" required>
+
+          <button type="submit" [disabled]="!loginform.valid">Log In</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

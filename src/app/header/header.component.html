@@ -7,7 +7,6 @@
 <div class="header-container">
   <h2 class="header_logo"><a routerLink="">salvus</a></h2>
   <nav *ngIf='userService.getAuthToken() != null' class="nav-bar">
-    <a routerLink="/mark-search">Perform a Search</a>
     <a (click)="logout()" routerLink="">Log Out</a>
   </nav>
 </div>

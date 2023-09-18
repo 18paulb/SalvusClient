@@ -23,13 +23,27 @@ export class LoginRegisterComponent {
 
   registerEmail: string = '';
   registerPassword: string = '';
+  confirmedRegisterPassword: string = '';
   companyName: string = '';
 
   loginEmail: string = '';
   loginPassword: string = '';
 
+  showLoginForm: boolean = true;
+  showRegisterForm: boolean =  false;
+
   public register(): void {
     try {
+
+      if (this.registerEmail === '' || this.registerPassword === '' || this.confirmedRegisterPassword === '')
+        alert("Missing information")
+
+      if (this.registerPassword !== this.confirmedRegisterPassword) {
+        alert("Passwords do not match")
+        this.registerPassword = ''
+        this.confirmedRegisterPassword = ''
+      }
+
       this.http.post<{ authtoken: string }>(this.baseUrl + 'register', {
         email: this.registerEmail,
         password: this.registerPassword,
