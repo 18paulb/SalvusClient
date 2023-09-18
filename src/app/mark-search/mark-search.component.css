@@ -31,7 +31,7 @@ textarea::placeholder {
   align-items: center;
   flex-direction: column;
   background: #FFFFFF;
-  height: 565px;
+  max-height: 572px;
   width: 539px;
   border-radius: 40px;
   box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
@@ -73,6 +73,7 @@ body{
   box-shadow: 0 4px 19px 0 rgba(119, 147, 65, 0.30);
   cursor: pointer !important;
   font-size: 16px;
+  margin-bottom: 50px;
 }
 
 .dropdown {
@@ -127,6 +128,12 @@ body{
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
+}
+
+.loader-text {
+  color: white;
+  margin: 5px;
+  font-weight: bold;
 }
 
 @keyframes spin {
