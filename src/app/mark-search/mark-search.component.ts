@@ -72,6 +72,7 @@ export class MarkSearchComponent {
         return
       }
 
+      this.results.length = 0;
       this.isLoading = true;
 
       if (this.searchScope === 'All') {
@@ -137,18 +138,26 @@ export class MarkSearchComponent {
     }));
   }
 
-  public classifyCode(): void {
-    this.http.get(this.baseUrl + `classifyCode?query=${encodeURIComponent(this.description)}`)
-      .subscribe((data: any) => {
-        this.classification = data.classification
+  async classifyCode(event: Event) {
+    // Prevents the newline
+    event.preventDefault();
+    this.isLoading = true;
 
-        //This sets the selected option to the classification if it is in the list of options
-        //Basically sets the code for the search and also picks an option from the dropdown of classifications
-        if (this.options.some(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())) {
-          this.selectedOption = this.options.find(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())![1]
-        }
+    let data = await this.classifyCodeApi();
 
-      })
+    this.classification = data.classification
+
+    //This sets the selected option to the classification if it is in the list of options
+    //Basically sets the code for the search and also picks an option from the dropdown of classifications
+    if (this.options.some(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())) {
+      this.selectedOption = this.options.find(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())![1]
+    }
+
+    this.isLoading = false;
+  }
+
+  async classifyCodeApi() : Promise<any> {
+    return firstValueFrom(this.http.get(this.baseUrl + `classifyCode?query=${encodeURIComponent(this.description)}`));
   }
 
   public createTrademarks(data: any): any {

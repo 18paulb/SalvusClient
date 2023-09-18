@@ -1,13 +1,18 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 textarea {
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-  font-size: 16px;
   resize: none;
-  margin: 5px;
+  border: 1px solid #ADADAD;
+  border-radius: 9px;
+  width: 100%;
+  padding: 9px;
+  height: 70px;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+textarea::placeholder {
+  line-height: 1.5;
 }
 
 .search-title {
@@ -26,7 +31,7 @@ textarea {
   align-items: center;
   flex-direction: column;
   background: #FFFFFF;
-  height: 520px;
+  max-height: 572px;
   width: 539px;
   border-radius: 40px;
   box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
@@ -68,6 +73,7 @@ body{
   box-shadow: 0 4px 19px 0 rgba(119, 147, 65, 0.30);
   cursor: pointer !important;
   font-size: 16px;
+  margin-bottom: 50px;
 }
 
 .dropdown {
@@ -94,11 +100,25 @@ body{
 
 .search-box__title {
   font-size: 32px;
-  padding: 40px;
+  padding: 30px;
 }
 
 .search-box__details {
   width: 85%;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);  /* semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
 }
 
 .loader {
@@ -110,7 +130,17 @@ body{
   animation: spin 2s linear infinite;
 }
 
+.loader-text {
+  color: white;
+  margin: 5px;
+  font-weight: bold;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.flex-container {
+  display: flex;
 }
