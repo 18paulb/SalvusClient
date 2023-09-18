@@ -31,8 +31,12 @@
   padding: 20px;
 }
 
+/*.results-table tr:nth-child(even) {*/
+/*  background-color: #FFFFFF;*/
+/*}*/
+
 .results-table tr:nth-child(even) {
-  background-color: #FFFFFF;
+  background-color: #F5F8FA;
 }
 
 .high-risk-level {

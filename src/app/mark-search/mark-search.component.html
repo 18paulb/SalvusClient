@@ -52,6 +52,7 @@
     <app-results-table [results]="this.shownResults"></app-results-table>
     <div *ngIf="this.isLoading" class="loading-overlay">
         <div class="loader"></div>
+        <br>
         <h1>This can take a while...</h1>
     </div>
   <button *ngIf="this.results.length != 0" (click)="showMoreResults()" class="searchButton">Load More Results</button>
