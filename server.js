@@ -6,3 +6,6 @@ app.get('/*', function(req,res) {
   res.sendFile(path.join(__dirname+
     '/dist/salvusfrontend/index.html'));});
 app.listen(process.env.PORT || 8080);
+
+const cors = require('cors');
+app.use(cors());
