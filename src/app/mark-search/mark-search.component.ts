@@ -11,7 +11,8 @@ import {firstValueFrom} from "rxjs";
   styleUrls: ['./mark-search.component.css']
 })
 export class MarkSearchComponent {
-  baseUrl = "http://localhost:8000/trademark/";
+  // baseUrl = "http://localhost:8000/trademark/";
+  baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
 
   constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
   }
@@ -35,12 +36,15 @@ export class MarkSearchComponent {
     ['Yarns and Threads', '023']]
 
   results: Trademark[] = [];
+  shownResults: Trademark[] = [];
 
   selectedOption: string | null = null;
   mark: string = '';
   description: string = ''
   classification: string = ''
   searchScope: string = 'Same'
+
+  NUM_ELEMENTS_TO_LOAD: number = 30
 
   filteredOptions = [...this.options];
   categorySearchTerm = '';
@@ -77,7 +81,12 @@ export class MarkSearchComponent {
 
       if (this.searchScope === 'Same') {
         let data = await this.getSameSearch(null)
-        this.createTrademarks(data.data);
+        this.results = this.createTrademarks(data.data);
+        this.resultsService.setResults(this.results)
+        this.resultsService.setSearchedMark(this.mark)
+
+        // This will remove from results and put in shownResults
+        this.shownResults = this.results.splice(0,this.NUM_ELEMENTS_TO_LOAD)
       }
 
       this.isLoading = false;
@@ -151,39 +160,54 @@ export class MarkSearchComponent {
     return firstValueFrom(this.http.get(this.baseUrl + `classifyCode?query=${encodeURIComponent(this.description)}`));
   }
 
-  public createTrademarks(data: any): void {
+  public createTrademarks(data: any): any {
+    let trademarks: any = []
     for (let i = 0; i < data.length; i++) {
 
-      let trademark = data[i]['trademark']
-      let riskLevel = data[i]['riskLevel']
+      try {
+        let trademark = data[i]['trademark']
+        let riskLevel = data[i]['riskLevel']
 
-      let descriptionAndCode = trademark.descriptions_and_codes;
+        let descriptionAndCode = trademark.description_and_code;
 
-      // replace ';' with new line characters
+        // replace ';' with new line characters
+        if (descriptionAndCode[0] != null)
+          debugger
+          descriptionAndCode[0] = descriptionAndCode[0].replace(/;/g, '\n')
 
-      if (descriptionAndCode[0] != null)
-        descriptionAndCode[0] = descriptionAndCode[i][0].replace(/;/g, '\n')
-
-      this.results.push({
-        mark_identification: trademark.mark_identification,
-        case_owners: trademark.case_owners,
-        date_filed: this.convertDateFormat(trademark.date_filed),
-        case_file_description: descriptionAndCode[0],
-        code: this.convertCategoryCode(this.options, descriptionAndCode[1]),
-        riskLevel: this.convertRiskLevel(riskLevel)
-      })
+        trademarks.push({
+          mark_identification: trademark.mark_identification,
+          case_owners: trademark.case_owners,
+          date_filed: this.convertDateFormat(trademark.date_filed),
+          case_file_description: descriptionAndCode[0],
+          code: this.convertCategoryCode(this.options, descriptionAndCode[1]),
+          riskLevel: this.convertRiskLevel(riskLevel)
+        })
+      } catch (error) {
+        debugger
+        console.log(error)
+      }
     }
 
-    if (this.results.length != 0) {
+    //Sort by risk level
+    const sortOrder = {
+      'High Risk': 1,
+      'Medium Risk': 2,
+      'Low Risk': 3,
+    };
 
-      //Sort the results
-      let customOrder = ["red", "yellow", "green"];
+    debugger
 
-      this.results = this.results.sort((a, b) => customOrder.indexOf(a.riskLevel) - customOrder.indexOf(b.riskLevel));
+    // @ts-ignore
+    trademarks.sort((a:Trademark, b:Trademark) => sortOrder[a.riskLevel] - sortOrder[b.riskLevel]);
 
-      this.resultsService.setResults(this.results)
-      this.resultsService.setSearchedMark(this.mark)
-    }
+    return trademarks;
+
+  }
+
+
+  public showMoreResults(): void {
+    this.shownResults.push(...this.results.splice(0, this.NUM_ELEMENTS_TO_LOAD));
   }
 
   public convertDateFormat(dateStr: string): string {

@@ -10,7 +10,8 @@ import {UserService} from "../services/UserService";
   styleUrls: ['./login-register.component.css']
 })
 export class LoginRegisterComponent {
-  baseUrl = "http://localhost:8000/authentication/";
+  // baseUrl = "http://localhost:8000/authentication/";
+  baseUrl = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/authentication/"
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
@@ -23,13 +24,27 @@ export class LoginRegisterComponent {
 
   registerEmail: string = '';
   registerPassword: string = '';
+  confirmedRegisterPassword: string = '';
   companyName: string = '';
 
   loginEmail: string = '';
   loginPassword: string = '';
 
+  showLoginForm: boolean = true;
+  showRegisterForm: boolean =  false;
+
   public register(): void {
     try {
+
+      if (this.registerEmail === '' || this.registerPassword === '' || this.confirmedRegisterPassword === '')
+        alert("Missing information")
+
+      if (this.registerPassword !== this.confirmedRegisterPassword) {
+        alert("Passwords do not match")
+        this.registerPassword = ''
+        this.confirmedRegisterPassword = ''
+      }
+
       this.http.post<{ authtoken: string }>(this.baseUrl + 'register', {
         email: this.registerEmail,
         password: this.registerPassword,
@@ -52,6 +67,8 @@ export class LoginRegisterComponent {
   }
 
   public login(): void {
+    debugger
+
     try {
       this.http.post<{ authtoken: string }>(this.baseUrl + 'login', {
         email: this.loginEmail,

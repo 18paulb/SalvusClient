@@ -10,6 +10,8 @@
   border-bottom: 2px solid #CFDCE5;
   background-color: #1E293B;
   color: #FFFFFF;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .results-table th {
