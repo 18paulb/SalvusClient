@@ -10,8 +10,8 @@ import {UserService} from "../services/UserService";
   styleUrls: ['./login-register.component.css']
 })
 export class LoginRegisterComponent {
-  baseUrl = "http://localhost:8000/authentication/";
-  // baseUrl = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/authentication/"
+  // baseUrl = "http://localhost:8000/authentication/";
+  baseUrl = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/authentication/"
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
@@ -73,7 +73,7 @@ export class LoginRegisterComponent {
         email: this.loginEmail,
         password: this.loginPassword
       }, {observe: 'response'}).subscribe(response => {
-        if (response.status == 200 && response.body != null) {
+        if (response.status === 200 && response.body !== null) {
           const token = response.body.authtoken;
           // TODO: We need to learn how to do the authtoken storage properly, this is unsafe
           // debugger

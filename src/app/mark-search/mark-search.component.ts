@@ -11,8 +11,8 @@ import {firstValueFrom} from "rxjs";
   styleUrls: ['./mark-search.component.css']
 })
 export class MarkSearchComponent {
-  baseUrl = "http://localhost:8000/trademark/";
-  // baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
+  // baseUrl = "http://localhost:8000/trademark/";
+  baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
 
   constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
   }
@@ -173,7 +173,6 @@ export class MarkSearchComponent {
 
         // replace ';' with new line characters
         if (descriptionAndCode[0] != null)
-          debugger
           descriptionAndCode[0] = descriptionAndCode[0].replace(/;/g, '\n')
 
         trademarks.push({
@@ -185,7 +184,7 @@ export class MarkSearchComponent {
           riskLevel: this.convertRiskLevel(riskLevel)
         })
       } catch (error) {
-        debugger
+        console.log("Error while assessing trademarks")
         console.log(error)
       }
     }
