@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {firstValueFrom, Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  constructor(private http: HttpClient) {}
   private currentUser: any;
+  baseUrl = "http://localhost:8000/authentication/";
 
   setUser(user: any) {
     this.currentUser = user;
@@ -18,13 +22,23 @@ export class UserService {
     return localStorage.getItem('authtoken');
   }
 
-  isAuthenticated(): boolean {
-    return localStorage.getItem('authtoken') != null
-   }
+  isAuthenticated(): Observable<any> {
+    const authtoken = localStorage.getItem('authtoken');
+    if (authtoken === null) {
+      return of(false);
+    }
+
+    return this.http.get(this.baseUrl + `verify-authtoken`, {
+      headers: new HttpHeaders({
+        'Authorization': authtoken
+      }),
+      observe: 'response'
+    });
+  }
 
   logout() {
-    localStorage.removeItem('authtoken');
     this.currentUser = null;
+    localStorage.clear();
   }
 }
 

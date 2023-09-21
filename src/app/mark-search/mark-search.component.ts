@@ -11,8 +11,8 @@ import {firstValueFrom} from "rxjs";
   styleUrls: ['./mark-search.component.css']
 })
 export class MarkSearchComponent {
-  // baseUrl = "http://localhost:8000/trademark/";
-  baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
+  baseUrl = "http://localhost:8000/trademark/";
+  // baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
 
   constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
   }
@@ -91,6 +91,7 @@ export class MarkSearchComponent {
 
       this.isLoading = false;
     } catch (error) {
+      console.log(error);
       alert("An error has occurred, try refreshing the page or changing your search")
       this.isLoading = false;
     }
