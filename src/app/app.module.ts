@@ -10,7 +10,6 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
 import { HttpClientXsrfModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
-import { SearchHistoryComponent } from './search-history/search-history.component';
 import { ResultsTableComponent } from './results-table/results-table.component';
 import {NgOptimizedImage} from "@angular/common";
 
@@ -20,7 +19,6 @@ import {NgOptimizedImage} from "@angular/common";
     MarkSearchComponent,
     LoginRegisterComponent,
     HeaderComponent,
-    SearchHistoryComponent,
     ResultsTableComponent
   ],
   imports: [
