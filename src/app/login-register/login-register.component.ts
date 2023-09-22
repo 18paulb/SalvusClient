@@ -67,17 +67,18 @@ export class LoginRegisterComponent {
   }
 
   public login(): void {
-    debugger
 
     try {
       this.http.post<{ authtoken: string }>(this.baseUrl + 'login', {
         email: this.loginEmail,
         password: this.loginPassword
       }, {observe: 'response'}).subscribe(response => {
-        if (response.status == 200 && response.body != null) {
+        if (response.status === 200 && response.body !== null) {
           const token = response.body.authtoken;
           // TODO: We need to learn how to do the authtoken storage properly, this is unsafe
+          // debugger
           localStorage.setItem('authtoken', token);
+          console.log("set authtoken");
           this.router.navigate(['/mark-search']).then(r => console.log(r));
         } else {
           alert('Login failed');
