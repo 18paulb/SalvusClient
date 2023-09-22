@@ -4,6 +4,7 @@ import {ResultsService} from "../services/ResultsService";
 import {Trademark} from "../services/trademarkModel";
 import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-mark-search',
@@ -11,11 +12,8 @@ import {firstValueFrom} from "rxjs";
   styleUrls: ['./mark-search.component.css']
 })
 export class MarkSearchComponent {
-  baseUrl = "http://localhost:8000/trademark/";
-  // baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
-
-  constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
-  }
+  baseUrl = environment.baseUrl + "trademark/";
+  constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {}
 
   // options: [string, string][] = [['Chemicals', '001'], ['Paints', "002"], ['Cosmetics and Cleaning Preparations', "003"], ['Lubricants and Fuels', "004"], ['Pharmaceuticals', "005"],
   //   ['Metal Goods', "006"], ['Machinery', "007"], ['Hand Tools', "008"], ['Electrical and Scientific Apparatus', "009"], ['Medical Apparatus', "010"], ['Environmental Control Apparatus', '011'],

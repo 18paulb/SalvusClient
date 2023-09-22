@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom, Observable, of} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,7 @@ import {firstValueFrom, Observable, of} from "rxjs";
 export class UserService {
   constructor(private http: HttpClient) {}
   private currentUser: any;
-  // baseUrl = "http://localhost:8000/authentication/";
-  baseUrl = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/authentication/";
+  baseUrl = environment.baseUrl + "authentication/";
 
   setUser(user: any) {
     this.currentUser = user;

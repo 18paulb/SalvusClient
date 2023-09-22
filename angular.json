@@ -52,6 +52,20 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "heroku" : {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.heroku.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -64,6 +78,9 @@
             },
             "development": {
               "browserTarget": "salvusfrontend:build:development"
+            },
+            "heroku": {
+              "browserTarget": "salvusfrontend:build:heroku"
             }
           },
           "defaultConfiguration": "development"
