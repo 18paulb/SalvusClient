@@ -11,8 +11,8 @@ import {firstValueFrom} from "rxjs";
   styleUrls: ['./mark-search.component.css']
 })
 export class MarkSearchComponent {
-  // baseUrl = "http://localhost:8000/trademark/";
-  baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
+  baseUrl = "http://localhost:8000/trademark/";
+  // baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
 
   constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
   }
@@ -181,7 +181,7 @@ export class MarkSearchComponent {
           date_filed: this.convertDateFormat(trademark.date_filed),
           case_file_description: descriptionAndCode[0],
           code: this.convertCategoryCode(this.options, descriptionAndCode[1]),
-          riskLevel: this.convertRiskLevel(riskLevel)
+          riskLevel: riskLevel
         })
       } catch (error) {
         console.log("Error while assessing trademarks")
@@ -189,17 +189,25 @@ export class MarkSearchComponent {
       }
     }
 
-    //Sort by risk level
-    const sortOrder = {
-      'High Risk': 1,
-      'Medium Risk': 2,
-      'Low Risk': 3,
-    };
-
     debugger
-
     // @ts-ignore
-    trademarks.sort((a:Trademark, b:Trademark) => sortOrder[a.riskLevel] - sortOrder[b.riskLevel]);
+    trademarks.sort((a:Trademark, b:Trademark) => b.riskLevel - a.riskLevel);
+
+    for (let i = 0; i < trademarks.length; ++i) {
+      trademarks[i].riskLevel = this.convertRiskLevel(trademarks[i].riskLevel)
+    }
+
+    // //Sort by risk level
+    // const sortOrder = {
+    //   'High Risk': 1,
+    //   'Medium Risk': 2,
+    //   'Low Risk': 3,
+    // };
+    //
+    // debugger
+    //
+    // // @ts-ignore
+    // trademarks.sort((a:Trademark, b:Trademark) => sortOrder[a.riskLevel] - sortOrder[b.riskLevel]);
 
     return trademarks;
 
@@ -229,14 +237,18 @@ export class MarkSearchComponent {
     return `${day} ${monthNames[dateObj.getMonth()]} ${year}`;
   }
 
-  public convertRiskLevel(riskLevel: string): string {
-    if (riskLevel == "yellow") return "Moderate Risk"
+  public convertRiskLevel(riskLevel: number): string {
 
-    else if (riskLevel == "red") return "High Risk"
-
-    else if (riskLevel == "green") return "Low Risk"
-
-    else return ""
+    //TODO: These are arbitrary values, eventually figure out a better way of judging
+    if (riskLevel > 60 && riskLevel <= 100) {
+      return "High"
+    }
+    else if (riskLevel > 30 && riskLevel <= 60) {
+      return "Moderate"
+    }
+    else {
+      return "Low"
+    }
   }
 
   public convertCategoryCode(arr: [string, string][], number: string): string {
