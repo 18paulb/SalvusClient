@@ -33,16 +33,25 @@ export class LoginRegisterComponent {
   showLoginForm: boolean = true;
   showRegisterForm: boolean =  false;
 
+  loginSuccess: boolean = true;
+  registerSuccess: boolean = true;
+  errorMessage = ''
+
   public register(): void {
     try {
 
-      if (this.registerEmail === '' || this.registerPassword === '' || this.confirmedRegisterPassword === '')
-        alert("Missing information")
+      if (this.registerEmail === '' || this.registerPassword === '' || this.confirmedRegisterPassword === '') {
+        this.errorMessage = "Missing information"
+        this.registerSuccess = false;
+        return;
+      }
 
       if (this.registerPassword !== this.confirmedRegisterPassword) {
-        alert("Passwords do not match")
+        this.errorMessage = "Passwords do not match"
         this.registerPassword = ''
         this.confirmedRegisterPassword = ''
+        this.registerSuccess = false;
+        return;
       }
 
       this.http.post<{ authtoken: string }>(this.baseUrl + 'register', {
@@ -57,37 +66,45 @@ export class LoginRegisterComponent {
           localStorage.setItem('authtoken', token);
           this.router.navigate(['/mark-search']).then(r => console.log(r));
         } else {
-          alert('Register failed');
+          this.errorMessage = 'Register Failed';
         }
       });
+
     } catch (e) {
-      alert('Register failed')
-      console.log(e);
+      this.errorMessage = 'Register failed'
     }
   }
 
   public login(): void {
+    this.loginSuccess = true;
 
-    try {
-      this.http.post<{ authtoken: string }>(this.baseUrl + 'login', {
-        email: this.loginEmail,
-        password: this.loginPassword
-      }, {observe: 'response'}).subscribe(response => {
+    this.http.post<{ authtoken: string }>(this.baseUrl + 'login', {
+      email: this.loginEmail,
+      password: this.loginPassword
+    }, {observe: 'response'}).subscribe(
+      response => {
         if (response.status === 200 && response.body !== null) {
           const token = response.body.authtoken;
           // TODO: We need to learn how to do the authtoken storage properly, this is unsafe
-          // debugger
           localStorage.setItem('authtoken', token);
-          console.log("set authtoken");
           this.router.navigate(['/mark-search']).then(r => console.log(r));
         } else {
-          alert('Login failed');
+          this.loginSuccess = false;
         }
-      });
-    } catch (e) {
-      alert('Login failed')
-      console.log(e);
-    }
+      },
+      error => {
+        if (error.status === 401) {
+          // Handle 401 error here
+          this.loginSuccess = false;
+          this.errorMessage = "Your username or password is incorrect"
+        } else {
+          // Handle other errors
+          this.loginSuccess = false;
+          this.errorMessage = "Your username or password is incorrect"
+        }
+      }
+    );
+
   }
 
 
