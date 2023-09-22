@@ -13,7 +13,7 @@
       <button (click)="showRegisterForm = true; showLoginForm = false">Register</button>
     </div>
 
-    <div style="display: flex; border: 2px solid rgb(128,128,128); box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08); border-radius: 40px;">
+    <div style=" display: flex; border: 2px solid rgb(128,128,128); box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08); border-radius: 40px;">
       <div *ngIf="showRegisterForm" class="form-container">
         <form #registerform='ngForm' (ngSubmit)="register()">
           <label for="registerEmail" class="form-label">Email</label>
@@ -34,6 +34,8 @@
 
           <button type="submit" [disabled]="!registerform.valid">Register</button>
         </form>
+
+        <div *ngIf="!registerSuccess" style="color:red">{{ errorMessage }}</div>
       </div>
 
       <div *ngIf="showLoginForm" class="form-container">
@@ -47,6 +49,8 @@
 
           <button type="submit" [disabled]="!loginform.valid">Log In</button>
         </form>
+
+        <div *ngIf="!loginSuccess" style="color:red">{{ errorMessage }}</div>
       </div>
     </div>
 
