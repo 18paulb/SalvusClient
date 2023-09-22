@@ -91,6 +91,7 @@ export class MarkSearchComponent {
 
       this.isLoading = false;
     } catch (error) {
+      console.log(error);
       alert("An error has occurred, try refreshing the page or changing your search")
       this.isLoading = false;
     }
@@ -172,7 +173,6 @@ export class MarkSearchComponent {
 
         // replace ';' with new line characters
         if (descriptionAndCode[0] != null)
-          debugger
           descriptionAndCode[0] = descriptionAndCode[0].replace(/;/g, '\n')
 
         trademarks.push({
@@ -184,7 +184,7 @@ export class MarkSearchComponent {
           riskLevel: this.convertRiskLevel(riskLevel)
         })
       } catch (error) {
-        debugger
+        console.log("Error while assessing trademarks")
         console.log(error)
       }
     }
