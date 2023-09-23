@@ -11,7 +11,7 @@ import { HttpClientXsrfModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { ResultsTableComponent } from './results-table/results-table.component';
-import {NgOptimizedImage} from "@angular/common";
+import { NgOptimizedImage } from "@angular/common";
 
 @NgModule({
   declarations: [

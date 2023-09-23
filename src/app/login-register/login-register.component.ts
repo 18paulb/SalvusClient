@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {HttpHeaders} from "@angular/common/http";
 import {Router} from '@angular/router';
 import {UserService} from "../services/UserService";
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login-register',
@@ -10,11 +11,8 @@ import {UserService} from "../services/UserService";
   styleUrls: ['./login-register.component.css']
 })
 export class LoginRegisterComponent {
-  // baseUrl = "http://localhost:8000/authentication/";
-  baseUrl = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/authentication/"
-
-  constructor(private http: HttpClient, private router: Router, private userService: UserService) {
-  }
+  baseUrl = environment.baseUrl + "authentication/"
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
     if (this.userService.getAuthToken() != null) {
