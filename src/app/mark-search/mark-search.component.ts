@@ -197,18 +197,6 @@ export class MarkSearchComponent {
       trademarks[i].riskLevel = this.convertRiskLevel(trademarks[i].riskLevel)
     }
 
-    // //Sort by risk level
-    // const sortOrder = {
-    //   'High Risk': 1,
-    //   'Medium Risk': 2,
-    //   'Low Risk': 3,
-    // };
-    //
-    // debugger
-    //
-    // // @ts-ignore
-    // trademarks.sort((a:Trademark, b:Trademark) => sortOrder[a.riskLevel] - sortOrder[b.riskLevel]);
-
     return trademarks;
 
   }
