@@ -6,7 +6,7 @@
   border-radius: 10px;
 }
 
-.table-header{
+.table-header {
   border-bottom: 2px solid #CFDCE5;
   background-color: #1E293B;
   color: #FFFFFF;
@@ -86,6 +86,6 @@
 
 .case-file-descriptions {
   max-height: 200px;
-  overflow-y: auto;   /* Scrollable */
+  overflow-y: auto; /* Scrollable */
   white-space: pre-line;
 }

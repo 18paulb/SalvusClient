@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {HttpHeaders} from "@angular/common/http";
 import {Router} from '@angular/router';
 import {UserService} from "../services/UserService";
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-login-register',
@@ -12,7 +11,9 @@ import { environment } from '../../environments/environment';
 })
 export class LoginRegisterComponent {
   baseUrl = environment.baseUrl + "authentication/"
-  constructor(private http: HttpClient, private router: Router, private userService: UserService) {}
+
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) {
+  }
 
   ngOnInit(): void {
     if (this.userService.getAuthToken() != null) {
@@ -29,7 +30,7 @@ export class LoginRegisterComponent {
   loginPassword: string = '';
 
   showLoginForm: boolean = true;
-  showRegisterForm: boolean =  false;
+  showRegisterForm: boolean = false;
 
   loginSuccess: boolean = true;
   registerSuccess: boolean = true;

@@ -53,7 +53,7 @@
               "sourceMap": true,
               "namedChunks": true
             },
-            "heroku" : {
+            "heroku": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
