@@ -1,7 +1,7 @@
-import {inject, Injectable} from '@angular/core';
+import {inject} from '@angular/core';
 import {UserService} from "./services/UserService";
 import {CanActivateFn, Router} from "@angular/router";
-import {map, Observable} from "rxjs";
+import {map} from "rxjs";
 
 export function routeGuards(): CanActivateFn {
   return () => {
