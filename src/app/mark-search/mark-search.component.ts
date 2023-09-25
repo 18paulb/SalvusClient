@@ -4,6 +4,7 @@ import {ResultsService} from "../services/ResultsService";
 import {Trademark} from "../services/trademarkModel";
 import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-mark-search',
@@ -11,8 +12,7 @@ import {firstValueFrom} from "rxjs";
   styleUrls: ['./mark-search.component.css']
 })
 export class MarkSearchComponent {
-  // baseUrl = "http://localhost:8000/trademark/";
-  baseUrl:string = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/trademark/"
+  baseUrl = environment.baseUrl + "trademark/";
 
   constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
   }
@@ -86,7 +86,7 @@ export class MarkSearchComponent {
         this.resultsService.setSearchedMark(this.mark)
 
         // This will remove from results and put in shownResults
-        this.shownResults = this.results.splice(0,this.NUM_ELEMENTS_TO_LOAD)
+        this.shownResults = this.results.splice(0, this.NUM_ELEMENTS_TO_LOAD)
       }
 
       this.isLoading = false;
@@ -157,7 +157,7 @@ export class MarkSearchComponent {
     this.isLoading = false;
   }
 
-  async classifyCodeApi() : Promise<any> {
+  async classifyCodeApi(): Promise<any> {
     return firstValueFrom(this.http.get(this.baseUrl + `classifyCode?query=${encodeURIComponent(this.description)}`));
   }
 
@@ -191,23 +191,11 @@ export class MarkSearchComponent {
 
     debugger
     // @ts-ignore
-    trademarks.sort((a:Trademark, b:Trademark) => b.riskLevel - a.riskLevel);
+    trademarks.sort((a: Trademark, b: Trademark) => b.riskLevel - a.riskLevel);
 
     for (let i = 0; i < trademarks.length; ++i) {
       trademarks[i].riskLevel = this.convertRiskLevel(trademarks[i].riskLevel)
     }
-
-    // //Sort by risk level
-    // const sortOrder = {
-    //   'High Risk': 1,
-    //   'Medium Risk': 2,
-    //   'Low Risk': 3,
-    // };
-    //
-    // debugger
-    //
-    // // @ts-ignore
-    // trademarks.sort((a:Trademark, b:Trademark) => sortOrder[a.riskLevel] - sortOrder[b.riskLevel]);
 
     return trademarks;
 
@@ -242,11 +230,9 @@ export class MarkSearchComponent {
     //TODO: These are arbitrary values, eventually figure out a better way of judging
     if (riskLevel > 60 && riskLevel <= 100) {
       return "High"
-    }
-    else if (riskLevel > 30 && riskLevel <= 60) {
+    } else if (riskLevel > 30 && riskLevel <= 60) {
       return "Moderate"
-    }
-    else {
+    } else {
       return "Low"
     }
   }

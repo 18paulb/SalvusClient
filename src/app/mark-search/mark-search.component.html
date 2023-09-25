@@ -1,6 +1,6 @@
 <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 50px;">
   <h1 class="search-title">Let's get started.</h1>
-  <p class="search-description">Is your trademark at risk? Find out now.</p>
+  <p class="search-description">Is your idea at risk of trademark infringement? Find out now.</p>
 </div>
 
 <!--Search Box-->
@@ -10,33 +10,33 @@
     <div class="search-box__details">
       <div class="search-sub-title">Enter Trademark</div>
 
-            <!--The Search-->
-            <!--            <form class="search" #wordmark='ngForm' (ngSubmit)="markSearch()">-->
-            <div class="flex-container">
-                <input name="wordMark" [(ngModel)]="mark" type="text" class="search-box__input"
-                       placeholder="i.e. Nike">
-            </div>
-            <!--            </form>-->
+      <!--The Search-->
+      <!--            <form class="search" #wordmark='ngForm' (ngSubmit)="markSearch()">-->
+      <div class="flex-container">
+        <input name="wordMark" [(ngModel)]="mark" type="text" class="search-box__input"
+               placeholder="i.e. Nike">
+      </div>
+      <!--            </form>-->
 
-            <!--All the drop down menus-->
-            <div class="dropdown-title">Select Trademark Industry</div>
-            <!--            <form #markdescription='ngForm' (ngSubmit)="classifyCode()">-->
-<!--            <div class="flex-container">-->
-<!--              <textarea (keydown.enter)="classifyCode($event)" [(ngModel)]="description"-->
-<!--                        placeholder="Enter description of your product or service to auto-classify your trademark industry"-->
-<!--                        required></textarea>-->
-<!--            </div>-->
-            <!--              <button type="submit" [disabled]="!markdescription.valid">Submit</button>-->
-            <!--            </form>-->
+      <!--All the drop down menus-->
+      <div class="dropdown-title">Select Trademark Industry</div>
+      <!--            <form #markdescription='ngForm' (ngSubmit)="classifyCode()">-->
+      <!--            <div class="flex-container">-->
+      <!--              <textarea (keydown.enter)="classifyCode($event)" [(ngModel)]="description"-->
+      <!--                        placeholder="Enter description of your product or service to auto-classify your trademark industry"-->
+      <!--                        required></textarea>-->
+      <!--            </div>-->
+      <!--              <button type="submit" [disabled]="!markdescription.valid">Submit</button>-->
+      <!--            </form>-->
 
-            <div>
-                <select class="search-box__input" [(ngModel)]="selectedOption"
-                        required>
-                    <!--                    <option value="" disabled [selected]="selectedOption === null">Product Category</option>-->
-                    <option [ngValue]=null disabled>None</option>
-                    <option *ngFor="let option of options" [ngValue]="option[1]">{{option[0]}}</option>
-                </select>
-            </div>
+      <div>
+        <select class="search-box__input" [(ngModel)]="selectedOption"
+                required>
+          <!--                    <option value="" disabled [selected]="selectedOption === null">Product Category</option>-->
+          <option [ngValue]=null disabled>None</option>
+          <option *ngFor="let option of options" [ngValue]="option[1]">{{option[0]}}</option>
+        </select>
+      </div>
 
       <form class="search" #wordmark='ngForm' (ngSubmit)="markSearch()">
         <button type="submit" class="searchButton" [disabled]="!wordmark.valid">Search</button>
@@ -49,11 +49,11 @@
 
 <div style="display:flex; justify-content: space-evenly; align-items: center; flex-direction: column">
 
-    <app-results-table [results]="this.shownResults"></app-results-table>
-    <div *ngIf="this.isLoading" class="loading-overlay">
-        <div class="loader"></div>
-        <h1 class="loader-text">This can take a while...</h1>
-    </div>
+  <app-results-table [results]="this.shownResults"></app-results-table>
+  <div *ngIf="this.isLoading" class="loading-overlay">
+    <div class="loader"></div>
+    <h1 class="loader-text">Optimizing your results...</h1>
+  </div>
   <button *ngIf="this.results.length != 0" (click)="showMoreResults()" class="searchButton">Load More Results</button>
 
 </div>

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {HttpHeaders} from "@angular/common/http";
 import {Router} from '@angular/router';
 import {UserService} from "../services/UserService";
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-login-register',
@@ -10,8 +10,7 @@ import {UserService} from "../services/UserService";
   styleUrls: ['./login-register.component.css']
 })
 export class LoginRegisterComponent {
-  // baseUrl = "http://localhost:8000/authentication/";
-  baseUrl = "https://salvusbackend-6f4cec5e1bd6.herokuapp.com/authentication/"
+  baseUrl = environment.baseUrl + "authentication/"
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
@@ -31,7 +30,7 @@ export class LoginRegisterComponent {
   loginPassword: string = '';
 
   showLoginForm: boolean = true;
-  showRegisterForm: boolean =  false;
+  showRegisterForm: boolean = false;
 
   loginSuccess: boolean = true;
   registerSuccess: boolean = true;

@@ -1,3 +1,8 @@
+.page-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 /* Basic button styling */
 button {
   padding: 12px 24px;
@@ -104,4 +109,20 @@ button {
 button:disabled {
   background-color: lightgray;
   cursor: not-allowed;
+}
+
+
+/* Small phones */
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+  /* Your CSS */
+  .page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image {
+    width: 100%;
+  }
 }
