@@ -39,33 +39,27 @@
   background-color: #F5F8FA;
 }
 
-.high-risk-level {
+.risk-level {
+  padding: 2px 14px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: #FFD5D1;
   border-radius: 20px;
+}
+
+.high-risk-level {
+  background-color: #FFD5D1;
   color: #A8071A;
 }
 
 .medium-risk-level {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   background-color: #FFF6D1;
-  border-radius: 20px;
   color: #BF7B05;
 }
 
 .low-risk-level {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   background-color: #D9F7BE;
-  border-radius: 20px;
   color: #0A5C1F;
 }
 
@@ -74,14 +68,6 @@
   border: none;
   margin: 10px;
   cursor: pointer;
-}
-
-.table-container {
-  display: flex;
-  margin: 50px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column
 }
 
 .case-file-descriptions {
