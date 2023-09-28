@@ -80,7 +80,7 @@ export class MarkSearchComponent {
       }
 
       if (this.searchScope === 'Same') {
-        let data = await this.getSameSearch(null)
+        let data = await this.getSameSearch();
         this.results = this.createTrademarks(data.data);
         this.resultsService.setResults(this.results)
         this.resultsService.setSearchedMark(this.mark)
@@ -97,13 +97,8 @@ export class MarkSearchComponent {
     }
   }
 
-  async getSameSearch(lastEvaluatedKey: any): Promise<any> {
-    let lastEvalString = "";
-    if (lastEvaluatedKey !== null) {
-      lastEvalString = `&lastEvaluatedKey=${JSON.stringify(lastEvaluatedKey)}`;
-    }
-
-    return firstValueFrom(this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption}&activeStatus=live${lastEvalString}`, {
+  getSameSearch(): Promise<any> {
+    return firstValueFrom(this.http.get(this.baseUrl + `markSearchSame?query=${this.mark}&code=${this.selectedOption}&activeStatus=live`, {
       headers: new HttpHeaders({
         'Authorization': `${localStorage.getItem('authtoken')}`
       })
@@ -189,7 +184,6 @@ export class MarkSearchComponent {
       }
     }
 
-    debugger
     // @ts-ignore
     trademarks.sort((a: Trademark, b: Trademark) => b.riskLevel - a.riskLevel);
 

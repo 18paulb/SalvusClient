@@ -4,12 +4,11 @@
     <img class="image" ngSrc="assets/homePageImage.svg" alt="Man using computer" height="550" width="608">
   </div>
 
-  <div class="flex-item"
-       style="display: flex; align-self: flex-start; justify-content: center; align-items: center; flex-direction: column; margin-top: 60px;">
+  <div class="authentication-container">
 
-    <h1>Welcome to Salvus</h1>
+    <h1 style="text-align: center">Welcome to Salvus</h1>
 
-    <div>
+    <div class="authentication__button-container">
       <button (click)="showLoginForm = true; showRegisterForm = false">Login</button>
       <button (click)="showRegisterForm = true; showLoginForm = false">Register</button>
     </div>
