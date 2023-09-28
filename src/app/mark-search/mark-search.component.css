@@ -36,6 +36,7 @@ textarea::placeholder {
   border-radius: 40px;
   box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
   border: 2px solid rgb(128, 128, 128);
+  margin: 20px;
 }
 
 body {
@@ -62,7 +63,7 @@ body {
   color: #00B4CC;
 }
 
-.searchButton {
+.search-button {
   width: 100%;
   height: 54px;
   text-align: center;
@@ -134,6 +135,7 @@ body {
   color: white;
   margin: 5px;
   font-weight: bold;
+  text-align: center;
 }
 
 @keyframes spin {
@@ -147,4 +149,17 @@ body {
 
 .flex-container {
   display: flex;
+}
+
+.table-container {
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile and smaller screens */
+@media screen and (max-width: 850px) {
+  .table-container {
+    margin: 10px;
+  }
 }
