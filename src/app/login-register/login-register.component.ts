@@ -38,9 +38,10 @@ export class LoginRegisterComponent {
 
   public register(): void {
     try {
-
+      this.errorMessage = '';
+      this.registerSuccess = true;
       if (this.registerEmail === '' || this.registerPassword === '' || this.confirmedRegisterPassword === '') {
-        this.errorMessage = "Missing information"
+        this.errorMessage = "Missing information";
         this.registerSuccess = false;
         return;
       }
@@ -57,18 +58,25 @@ export class LoginRegisterComponent {
         email: this.registerEmail,
         password: this.registerPassword,
         company_name: this.companyName
-      }, {observe: 'response'}).subscribe((response: any) => {
-        console.log(response);
-        if (response.status == 200 && response.body != null) {
-          const token = response.body.authtoken;
-          // TODO: We need to learn how to do the authtoken storage properly, this is unsafe
-          localStorage.setItem('authtoken', token);
-          this.router.navigate(['/mark-search']).then(r => console.log(r));
-        } else {
-          this.errorMessage = 'Register Failed';
+      }, {observe: 'response'}).subscribe({
+        next: (response) => {
+          debugger
+          console.log(response);
+          if (response.status === 200 && response.body !== null) {
+            const token = response.body.authtoken;
+            // TODO: We need to learn how to do the authtoken storage properly, this is unsafe
+            localStorage.setItem('authtoken', token);
+            this.router.navigate(['/mark-search']).then(r => console.log(r));
+          } else {
+            this.errorMessage = 'Register failed.'
+          }
+        },
+        error: (error) => {
+          debugger
+          this.errorMessage = error.error.message
+          this.registerSuccess = false;
         }
       });
-
     } catch (e) {
       this.errorMessage = 'Register failed'
     }
