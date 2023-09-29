@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Router} from '@angular/router';
 import {UserService} from "../services/UserService";
 import {environment} from '../../environments/environment';
-import {catchError, throwError} from "rxjs";
 
 @Component({
   selector: 'app-login-register',
@@ -39,9 +38,10 @@ export class LoginRegisterComponent {
 
   public register(): void {
     try {
-
+      this.errorMessage = '';
+      this.registerSuccess = true;
       if (this.registerEmail === '' || this.registerPassword === '' || this.confirmedRegisterPassword === '') {
-        this.errorMessage = "Missing information"
+        this.errorMessage = "Missing information";
         this.registerSuccess = false;
         return;
       }
@@ -67,11 +67,14 @@ export class LoginRegisterComponent {
             // TODO: We need to learn how to do the authtoken storage properly, this is unsafe
             localStorage.setItem('authtoken', token);
             this.router.navigate(['/mark-search']).then(r => console.log(r));
+          } else {
+            this.errorMessage = 'Register failed.'
           }
         },
         error: (error) => {
           debugger
           this.errorMessage = error.error.message
+          this.registerSuccess = false;
         }
       });
     } catch (e) {
