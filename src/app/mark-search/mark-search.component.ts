@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ResultsService} from "../services/ResultsService";
-import {Trademark} from "../services/trademarkModel";
+import {Trademark} from "../services/TrademarkModel";
 import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
 import {environment} from '../../environments/environment';
@@ -82,7 +82,7 @@ export class MarkSearchComponent {
     this.numPingsSent += 1;
 
     if (this.numPingsSent > this.MAX_PINGS) {
-      throw Error("Number of Pings exceeds max of 10");
+      throw Error(`Number of Pings exceeds max of ${this.MAX_PINGS}`);
     }
 
     let url = environment.baseUrl + `tasks/check_status?task_id=${taskId}&query=${this.mark}`
