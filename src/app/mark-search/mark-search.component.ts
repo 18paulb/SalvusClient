@@ -2,9 +2,9 @@ import {Component} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ResultsService} from "../services/ResultsService";
 import {Trademark} from "../services/TrademarkModel";
-import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
 import {environment} from '../../environments/environment';
+import {LoggerService} from "../services/LoggerService";
 
 @Component({
   selector: 'app-mark-search',
@@ -14,7 +14,7 @@ import {environment} from '../../environments/environment';
 export class MarkSearchComponent {
   baseUrl = environment.baseUrl + "trademark/";
 
-  constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
+  constructor(private http: HttpClient, private resultsService: ResultsService, private logger: LoggerService) {
   }
 
   options: [string, string][] = [['Advertising and Business', '035'], ['Building Construction and Repair', '037'], ['Chemicals', '001'], ['Clothing', '025'], ['Computer and Scientific', '042'],
@@ -31,7 +31,6 @@ export class MarkSearchComponent {
 
   selectedOption: string | null = null;
   mark: string = '';
-  searchScope: string = 'Same'
 
   NUM_ELEMENTS_TO_LOAD: number = 30
 
@@ -39,14 +38,14 @@ export class MarkSearchComponent {
 
   numPingsSent: number = 0;
 
-  // 5 * 12 should a minute total of waiting
+  // 5 * 12 should be a minute total of waiting
   MAX_PINGS: number = 12;
 
   async markSearch() {
 
     try {
-      if (this.mark == '' || this.selectedOption == null || this.searchScope == '') {
-        console.log("Missing mark identification or an option has not been selected")
+      if (this.mark == '' || this.selectedOption == null) {
+        this.logger.warn("Missing mark identification or an option has not been selected")
         return
       }
 
@@ -54,16 +53,13 @@ export class MarkSearchComponent {
       this.results.length = 0;
       this.isLoading = true;
 
-      if (this.searchScope === 'Same') {
-        let data = await this.getSameSearch();
-        // this.currTaskId = data.task_id
-        await this.pingForResults(data.task_id)
-      }
+      let data = await this.getSameSearch();
+      await this.pingForResults(data.task_id)
 
       this.isLoading = false;
 
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) this.logger.error(error.message);
       alert("An error has occurred, try refreshing the page or changing your search")
       this.isLoading = false;
     }
@@ -105,7 +101,12 @@ export class MarkSearchComponent {
         this.shownResults = this.results.splice(0, this.NUM_ELEMENTS_TO_LOAD)
       }
     } catch (error) {
-      console.log("error")
+      if (error instanceof Error) {
+        // Now TypeScript knows that error is of type Error
+        this.logger.error(error.message);
+      } else {
+        this.logger.error('Caught an unknown error');
+      }
     }
   }
 
@@ -132,8 +133,9 @@ export class MarkSearchComponent {
           riskLevel: riskLevel
         })
       } catch (error) {
-        console.log("Error while assessing trademarks")
-        console.log(error)
+        if (error instanceof Error) {
+          this.logger.error(error.message)
+        }
       }
     }
 
