@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ResultsService} from "../services/ResultsService";
-import {Trademark} from "../services/trademarkModel";
-import {Router} from "@angular/router";
+import {Trademark} from "../services/TrademarkModel";
 import {firstValueFrom} from "rxjs";
 import {environment} from '../../environments/environment';
+import {LoggerService} from "../services/LoggerService";
 
 @Component({
   selector: 'app-mark-search',
@@ -14,17 +14,8 @@ import {environment} from '../../environments/environment';
 export class MarkSearchComponent {
   baseUrl = environment.baseUrl + "trademark/";
 
-  constructor(private http: HttpClient, private resultsService: ResultsService, private router: Router) {
+  constructor(private http: HttpClient, private resultsService: ResultsService, private logger: LoggerService) {
   }
-
-  // options: [string, string][] = [['Chemicals', '001'], ['Paints', "002"], ['Cosmetics and Cleaning Preparations', "003"], ['Lubricants and Fuels', "004"], ['Pharmaceuticals', "005"],
-  //   ['Metal Goods', "006"], ['Machinery', "007"], ['Hand Tools', "008"], ['Electrical and Scientific Apparatus', "009"], ['Medical Apparatus', "010"], ['Environmental Control Apparatus', '011'],
-  //   ['Vehicles', '012'], ['Firearms', '013'], ['Jewelry', '014'], ['Musical Instruments', '015'], ['Paper Goods and Printed Matter', '016'], ['Rubber Goods', '017'], ['Leather Goods', '018'],
-  //   ['Non-metallic Building Materials', '019'], ['Furniture and Articles Not Otherwise Classified', '020'], ['Housewares and Glass', '021'], ['Cordage and Fibers', '022'],
-  //   ['Yarns and Threads', '023'], ['Fabrics', '024'], ['Clothing', '025'], ['Fancy Goods', '026'], ['Floor Coverings', '026'], ['Toys and Sporting Goods', '028'], ['Meats and Processed Foods', '029'],
-  //   ['Staple Foods', '030'], ['Natural Agricultural Products', '031'], ['Light Beverages', '032'], ['Wines and Spirits', '033'], ['Smokers\' Articles', '034'], ['Advertising and Business', '035'],
-  //   ['Insurance and Financial', '036'], ['Building Construction and Repair', '037'], ['Telecommunications', '038'], ['Transportation and Storage', '039'], ['Treatment of Materials', '040'],
-  //   ['Educational and Entertainment', '041'], ['Computer and Scientific', '042'], ['Hotels and Restaurants', '043'], ['Medical, Beauty and Agricultural', '044'], ['Personal and Legal', '045']]
 
   options: [string, string][] = [['Advertising and Business', '035'], ['Building Construction and Repair', '037'], ['Chemicals', '001'], ['Clothing', '025'], ['Computer and Scientific', '042'],
     ['Cordage and Fibers', '022'], ['Cosmetics and Cleaning Preparations', '003'], ['Educational and Entertainment', '041'], ['Electrical and Scientific Apparatus', '009'], ['Environmental Control Apparatus', '011'],
@@ -40,58 +31,35 @@ export class MarkSearchComponent {
 
   selectedOption: string | null = null;
   mark: string = '';
-  description: string = ''
-  classification: string = ''
-  searchScope: string = 'Same'
 
   NUM_ELEMENTS_TO_LOAD: number = 30
 
-  filteredOptions = [...this.options];
-  categorySearchTerm = '';
-
-  lastEvaluatedKey: any = null;
-
   isLoading: boolean = false;
 
-  filterResults() {
-    this.filteredOptions = this.options.filter(
-      option => option[0].toLowerCase().includes(this.categorySearchTerm.toLowerCase())
-    );
-  }
+  numPingsSent: number = 0;
 
-  selectOption(option: string) {
-    this.categorySearchTerm = option;
-    this.filteredOptions = [];
-  }
+  // 5 * 12 should be a minute total of waiting
+  MAX_PINGS: number = 12;
 
   async markSearch() {
 
     try {
-      if (this.mark == '' || this.selectedOption == null || this.searchScope == '') {
-        console.log("Missing mark identification or an option has not been selected")
+      if (this.mark == '' || this.selectedOption == null) {
+        this.logger.warn("Missing mark identification or an option has not been selected")
         return
       }
 
+      this.numPingsSent = 0;
       this.results.length = 0;
       this.isLoading = true;
 
-      if (this.searchScope === 'All') {
-        await this.markSearchAllRecursive(this.lastEvaluatedKey, true)
-      }
-
-      if (this.searchScope === 'Same') {
-        let data = await this.getSameSearch();
-        this.results = this.createTrademarks(data.data);
-        this.resultsService.setResults(this.results)
-        this.resultsService.setSearchedMark(this.mark)
-
-        // This will remove from results and put in shownResults
-        this.shownResults = this.results.splice(0, this.NUM_ELEMENTS_TO_LOAD)
-      }
+      let data = await this.getSameSearch();
+      await this.pingForResults(data.task_id)
 
       this.isLoading = false;
+
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) this.logger.error(error.message);
       alert("An error has occurred, try refreshing the page or changing your search")
       this.isLoading = false;
     }
@@ -105,58 +73,44 @@ export class MarkSearchComponent {
     }));
   }
 
-  async markSearchAllRecursive(lastEvaluatedKey: any, isFirstTime: boolean = false): Promise<void> {
-    if (!isFirstTime && lastEvaluatedKey === null) {
-      return;
+  async pingForResults(taskId: string) {
+
+    this.numPingsSent += 1;
+
+    if (this.numPingsSent > this.MAX_PINGS) {
+      throw Error(`Number of Pings exceeds max of ${this.MAX_PINGS}`);
     }
 
-    // if (this.numCallsMade == this.MAX_CALLS) return;
+    let url = environment.baseUrl + `tasks/check_status?task_id=${taskId}&query=${this.mark}`
+    let headers = new HttpHeaders({'Authorization': `${localStorage.getItem('authtoken')}`})
 
-    let data = await this.getAllSearch(lastEvaluatedKey);
+    try {
+      let data: any = await firstValueFrom(this.http.get(url, {headers}));
 
-    // this.numCallsMade += 1
-
-    this.createTrademarks(data.data);
-    this.lastEvaluatedKey = data.lastEvaluatedKey
-    await this.markSearchAllRecursive(this.lastEvaluatedKey);
-  }
-
-  async getAllSearch(lastEvaluatedKey: any): Promise<any> {
-    let lastEvalString = "";
-    if (lastEvaluatedKey !== null) {
-      lastEvalString = `&lastEvaluatedKey=${JSON.stringify(lastEvaluatedKey)}`;
+      if (data.data == null) {
+        // If data is null, wait for 5 seconds before making the next request
+        // This is blocking, so it will keep going and loading until it hits MAX_PINGS
+        console.log("Ping Sent")
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        await this.pingForResults(taskId);
+      } else {
+        this.results = this.createTrademarks(data.data);
+        this.resultsService.setResults(this.results)
+        this.resultsService.setSearchedMark(this.mark)
+        // This will remove from results and put in shownResults
+        this.shownResults = this.results.splice(0, this.NUM_ELEMENTS_TO_LOAD)
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        // Now TypeScript knows that error is of type Error
+        this.logger.error(error.message);
+      } else {
+        this.logger.error('Caught an unknown error');
+      }
     }
-
-    return firstValueFrom(this.http.get(this.baseUrl + `markSearchAll?query=${this.mark}&activeStatus=live${lastEvalString}`, {
-      headers: new HttpHeaders({
-        'Authorization': `${localStorage.getItem('authtoken')}`
-      })
-    }));
   }
 
-  async classifyCode(event: Event) {
-    // Prevents the newline
-    event.preventDefault();
-    this.isLoading = true;
-
-    let data = await this.classifyCodeApi();
-
-    this.classification = data.classification
-
-    //This sets the selected option to the classification if it is in the list of options
-    //Basically sets the code for the search and also picks an option from the dropdown of classifications
-    if (this.options.some(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())) {
-      this.selectedOption = this.options.find(([key, value]) => key.toLowerCase() === data.classification.toLowerCase())![1]
-    }
-
-    this.isLoading = false;
-  }
-
-  async classifyCodeApi(): Promise<any> {
-    return firstValueFrom(this.http.get(this.baseUrl + `classifyCode?query=${encodeURIComponent(this.description)}`));
-  }
-
-  public createTrademarks(data: any): any {
+  createTrademarks(data: any): any {
     let trademarks: any = []
     for (let i = 0; i < data.length; i++) {
 
@@ -179,8 +133,9 @@ export class MarkSearchComponent {
           riskLevel: riskLevel
         })
       } catch (error) {
-        console.log("Error while assessing trademarks")
-        console.log(error)
+        if (error instanceof Error) {
+          this.logger.error(error.message)
+        }
       }
     }
 
@@ -194,7 +149,6 @@ export class MarkSearchComponent {
     return trademarks;
 
   }
-
 
   public showMoreResults(): void {
     this.shownResults.push(...this.results.splice(0, this.NUM_ELEMENTS_TO_LOAD));

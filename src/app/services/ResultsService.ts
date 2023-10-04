@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Trademark} from "./trademarkModel";
+import {Trademark} from "./TrademarkModel";
 
 @Injectable({
   providedIn: 'root'
