@@ -38,8 +38,8 @@ export class MarkSearchComponent {
 
   numPingsSent: number = 0;
 
-  // 5 * 12 should be a minute total of waiting
-  MAX_PINGS: number = 12;
+  // 5 * 24 should be 2 minutes total of waiting
+  MAX_PINGS: number = 24;
 
   async markSearch() {
 
